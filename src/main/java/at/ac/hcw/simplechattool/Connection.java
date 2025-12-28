@@ -61,7 +61,7 @@ public class Connection extends Thread {
     }
 
     public void sendMessage(ChatMessage Message) throws IOException {
-        if(socket.isConnected()){
+        if(!socket.isClosed()){
         out.writeObject(Message);
         out.flush();}
         else {
