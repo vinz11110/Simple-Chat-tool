@@ -25,10 +25,10 @@ public class Connection extends Thread {
 
     public void run() {
         try {
-            if (ConnectIP != null&&ConnectIP.isEmpty()) {
+            if (ConnectIP != null&&!ConnectIP.isEmpty()&& typeof ConnectIP !== "string") {
                 socket = new Socket(ConnectIP, port);
 
-            } else {
+            } else{
                 serverSocket = new ServerSocket(port);
                 socket = serverSocket.accept();
                 serverSocket.close();
