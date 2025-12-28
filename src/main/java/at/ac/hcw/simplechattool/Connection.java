@@ -8,31 +8,31 @@ import java.net.Socket;
 
 public class Connection extends Thread {
     private final int port = 5000;
-    private String ConnectIP;
+    private String connectIP;
     private Socket socket = null;
     private ServerSocket serverSocket = null;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
-    private ChatController controller;
+    private final ChatController controller;
 
 
     public Connection(String ConnectIP, ChatController controller) {
-        this.ConnectIP = ConnectIP;
+        this.connectIP = ConnectIP;
         this.controller = controller;
         this.start();
     }
 
 
-    public void run() {
+    public void run() {                         //multithreading thread used to stop blocking, that happens when a serversocket waits for a first message, from blocking the whole Programm;
         try {
-            if (ConnectIP != null&&!ConnectIP.isEmpty()&& typeof ConnectIP === "string") {
-                socket = new Socket(ConnectIP, port);
+            if (connectIP != null||!connectIP.isEmpty()) {
+                socket = new Socket(connectIP, port);
 
             } else{
                 serverSocket = new ServerSocket(port);
                 socket = serverSocket.accept();
                 serverSocket.close();
-                this.ConnectIP = socket.getInetAddress().getHostAddress();
+                this.connectIP = socket.getInetAddress().getHostAddress();
             }
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.out.flush();
@@ -44,7 +44,7 @@ public class Connection extends Thread {
             return;
         }
 
-        while (!socket.isClosed()) {
+        while (!socket.isClosed()) {                                            //function will send received ChatMessage messages to a method in the controller to be displayed
             try {
                 Object obj = in.readObject();
                 if (obj instanceof ChatMessage) {
@@ -60,23 +60,23 @@ public class Connection extends Thread {
         }
     }
 
-    public void sendMessage(ChatMessage Message) throws IOException {
+    public void sendMessage(ChatMessage message) throws IOException {
         if(!socket.isClosed()){
-        out.writeObject(Message);
+        out.writeObject(message);
         out.flush();}
         else {
             return;
         }
     }
 
-    public void close() throws IOException {
+    public void shutdown() throws IOException {
         socket.close();
         in.close();
     }
 
     public void reconnect() {
         try {
-             this.socket = new Socket(ConnectIP, port);
+             this.socket = new Socket(connectIP, port);
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.out.flush();
             this.in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -86,4 +86,7 @@ public class Connection extends Thread {
         }
     }
 
+    public String getConnectIP() {
+        return connectIP;
+    }
 }
