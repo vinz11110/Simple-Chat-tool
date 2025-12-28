@@ -25,7 +25,7 @@ public class Connection extends Thread {
 
     public void run() {
         try {
-            if (ConnectIP != null&&!ConnectIP.isEmpty()&& typeof ConnectIP !== "string") {
+            if (ConnectIP != null&&!ConnectIP.isEmpty()&& typeof ConnectIP === "string") {
                 socket = new Socket(ConnectIP, port);
 
             } else{
