@@ -14,6 +14,8 @@ public class Connection extends Thread {
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
     private final ChatController controller;
+    private String receivedMessageID;
+    private String sentMessageID;
 
 
     public Connection(String ConnectIP, ChatController controller) {
@@ -25,10 +27,10 @@ public class Connection extends Thread {
 
     public void run() {                         //multithreading thread used to stop blocking, that happens when a serversocket waits for a first message, from blocking the whole Programm;
         try {
-            if (connectIP != null||!connectIP.isEmpty()) {
+            if (connectIP != null || !connectIP.isEmpty()) {
                 socket = new Socket(connectIP, port);
 
-            } else{
+            } else {
                 serverSocket = new ServerSocket(port);
                 socket = serverSocket.accept();
                 serverSocket.close();
@@ -50,7 +52,10 @@ public class Connection extends Thread {
                 if (obj instanceof ChatMessage) {
                     ChatMessage message = (ChatMessage) obj;
                     Platform.runLater(() -> controller.displayMessage(message));
-
+                    receivedMessageID = message.getID;
+                    sendMessage(receivedMessageID);
+                } else if (obj.equals(sentMessageID)) {
+                    confirmeReceived();
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -60,12 +65,16 @@ public class Connection extends Thread {
         }
     }
 
-    public void sendMessage(ChatMessage message) throws IOException {
-        if(!socket.isClosed()){
-        out.writeObject(message);
-        out.flush();}
-        else {
-            return;
+    public String sendMessage(Object message) throws IOException {
+        if (!socket.isClosed()) {
+            sentMessageID=message.getID;
+            out.writeObject(message);
+            out.flush();
+            if(message instanceof ChatMessage){
+            }
+            return "sent";
+        } else {
+            return "message not sent successfully";
         }
     }
 
@@ -76,7 +85,7 @@ public class Connection extends Thread {
 
     public void reconnect() {
         try {
-             this.socket = new Socket(connectIP, port);
+            this.socket = new Socket(connectIP, port);
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.out.flush();
             this.in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -88,5 +97,9 @@ public class Connection extends Thread {
 
     public String getConnectIP() {
         return connectIP;
+    }
+
+    public String confirmeReceived() {
+        return "Received";
     }
 }
