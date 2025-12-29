@@ -16,6 +16,7 @@ public class Connection extends Thread {
     private final ChatController controller;
     private String receivedMessageID;
     private String sentMessageID;
+    private boolean sentReceived;           //For person doing controller, if possible only allow sending button to call sendMessage if sentReceived is true, to prevent mixup in status update cycle
 
 
     public Connection(String ConnectIP, ChatController controller) {
@@ -27,7 +28,7 @@ public class Connection extends Thread {
 
     public void run() {                         //multithreading thread used to stop blocking, that happens when a serversocket waits for a first message, from blocking the whole Programm;
         try {
-            if (connectIP != null || !connectIP.isEmpty()) {
+            if (connectIP != null && !connectIP.isEmpty()) {
                 socket = new Socket(connectIP, port);
 
             } else {
@@ -54,8 +55,8 @@ public class Connection extends Thread {
                     Platform.runLater(() -> controller.displayMessage(message));
                     receivedMessageID = message.getID;
                     sendMessage(receivedMessageID);
-                } else if (obj.equals(sentMessageID)) {
-                    confirmeReceived();
+                } else if (((String) obj).equals(sentMessageID)) {
+                    messageStatus(2, (String) obj);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -65,16 +66,16 @@ public class Connection extends Thread {
         }
     }
 
-    public String sendMessage(Object message) throws IOException {
+    public void sendMessage(Object message) throws IOException {
         if (!socket.isClosed()) {
-            sentMessageID=message.getID;
+            sentMessageID = message.getID;
             out.writeObject(message);
             out.flush();
-            if(message instanceof ChatMessage){
+            if (message instanceof ChatMessage) {
+                messageStatus(1, sentMessageID);
             }
-            return "sent";
         } else {
-            return "message not sent successfully";
+            messageStatus(-1, sentMessageID);
         }
     }
 
@@ -99,7 +100,25 @@ public class Connection extends Thread {
         return connectIP;
     }
 
-    public String confirmeReceived() {
-        return "Received";
+    public void messageStatus(int currentState, String sentMessageID) {
+        String state = "";
+        if (currentState == -1) {
+            state = "Message not sent successfully";
+        } else if (currentState == 1) {
+            state = "Sent";
+            sentReceived = false;
+        } else if (currentState == 2) {
+            state = "Received";
+            sentReceived = true;
+        }
+        String finalState = state;
+        Platform.runLater(() -> {
+            controller.messageState(finalState, sentMessageID);
+        });
+
+    }
+
+    public boolean isSentReceived() {
+        return sentReceived;
     }
 }
