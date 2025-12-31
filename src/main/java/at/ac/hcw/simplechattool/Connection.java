@@ -56,7 +56,7 @@ public class Connection extends Thread {
                     receivedMessageID = message.getID;
                     sendMessage(receivedMessageID);
                 } else if (((String) obj).equals(sentMessageID)) {
-                    messageStatus(2, (String) obj);
+                    message.updateState(2);
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -72,10 +72,10 @@ public class Connection extends Thread {
             out.writeObject(message);
             out.flush();
             if (message instanceof ChatMessage) {
-                messageStatus(1, sentMessageID);
+                message.updateState(1);
             }
         } else {
-            messageStatus(-1, sentMessageID);
+            message.updateState(-1);
         }
     }
 
@@ -100,23 +100,6 @@ public class Connection extends Thread {
         return connectIP;
     }
 
-    public void messageStatus(int currentState, String sentMessageID) {
-        String state = "";
-        if (currentState == -1) {
-            state = "Message not sent successfully";
-        } else if (currentState == 1) {
-            state = "Sent";
-            sentReceived = false;
-        } else if (currentState == 2) {
-            state = "Received";
-            sentReceived = true;
-        }
-        String finalState = state;
-        Platform.runLater(() -> {
-            controller.messageState(finalState, sentMessageID);
-        });
-
-    }
 
     public boolean isSentReceived() {
         return sentReceived;
