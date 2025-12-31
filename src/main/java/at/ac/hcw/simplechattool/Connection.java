@@ -14,15 +14,16 @@ public class Connection extends Thread {
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
     private final ChatController controller;
-    private String receivedMessageID;
-    private String sentMessageID;
-    private boolean sentReceived;           //For person doing controller, if possible only allow sending button to call sendMessage if sentReceived is true, to prevent mixup in status update cycle
+    private int receivedMessageID;
+    private int sentMessageID;
+    private static int messageID;
 
 
     public Connection(String ConnectIP, ChatController controller) {
         this.connectIP = ConnectIP;
         this.controller = controller;
         this.start();
+        this.sentMessageID = 0;
     }
 
 
@@ -55,8 +56,10 @@ public class Connection extends Thread {
                     Platform.runLater(() -> controller.displayMessage(message));
                     receivedMessageID = message.getID;
                     sendMessage(receivedMessageID);
-                } else if (((String) obj).equals(sentMessageID)) {
-                    message.updateState(2);
+                } else if (((int) obj).equals(controller.findMessageID((int) obj))) {
+                    Platform.runLater(() -> {
+                        controller.messageList[controller.findMessageID((int) obj)].updateState(-1);
+                    });
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -68,14 +71,17 @@ public class Connection extends Thread {
 
     public void sendMessage(Object message) throws IOException {
         if (!socket.isClosed()) {
-            sentMessageID = message.getID;
             out.writeObject(message);
             out.flush();
             if (message instanceof ChatMessage) {
-                message.updateState(1);
+                sentMessageID = message.getID;
+                controller.messageList[sentMessageID].updateState(1);
             }
         } else {
-            message.updateState(-1);
+            if (message instanceof ChatMessage) {
+                sentMessageID = message.getID;
+                controller.messageList[sentMessageID].updateState(-1);
+            }
         }
     }
 
@@ -90,6 +96,7 @@ public class Connection extends Thread {
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.out.flush();
             this.in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
         } catch (IOException x) {
             System.out.println(x);
             return;
@@ -100,8 +107,9 @@ public class Connection extends Thread {
         return connectIP;
     }
 
-
-    public boolean isSentReceived() {
-        return sentReceived;
+    public static int getMessageID() {
+        messageID++;
+        return messageID;
     }
+
 }
