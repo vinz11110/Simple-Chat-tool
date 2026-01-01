@@ -13,7 +13,7 @@ public class Connection extends Thread {
     private ServerSocket serverSocket = null;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
-    private final ChatController controller;
+    private final messageHandler messageHandler;
     private int receivedMessageID;
     private int sentMessageID;
     private static int messageID;
@@ -53,12 +53,12 @@ public class Connection extends Thread {
                 Object obj = in.readObject();
                 if (obj instanceof ChatMessage) {
                     ChatMessage message = (ChatMessage) obj;
-                    Platform.runLater(() -> controller.displayMessage(message));
-                    receivedMessageID = message.getID;
+                    Platform.runLater(() -> {controller.displayMessage(message);});
+                    receivedMessageID = (int)message.getID;
                     sendMessage(receivedMessageID);
-                } else if (((int) obj).equals(controller.findMessageID((int) obj))) {
+                } else if (((int) obj).equals(messageHandler.findMessageID((int) obj))) {
                     Platform.runLater(() -> {
-                        controller.messageList[controller.findMessageID((int) obj)].updateState(-1);
+                        messageHandler.messageList(messageHandler.findMessageID((int) obj)).updateState(-1);
                     });
                 }
             } catch (IOException e) {
@@ -75,12 +75,12 @@ public class Connection extends Thread {
             out.flush();
             if (message instanceof ChatMessage) {
                 sentMessageID = message.getID;
-                controller.messageList[sentMessageID].updateState(1);
+                messageHandler.messageList(sentMessageID).updateState(1);
             }
         } else {
             if (message instanceof ChatMessage) {
                 sentMessageID = message.getID;
-                controller.messageList[sentMessageID].updateState(-1);
+                messageHandler.messageList(sentMessageID).updateState(-1);
             }
         }
     }
