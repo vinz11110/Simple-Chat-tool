@@ -13,21 +13,20 @@ public class Connection extends Thread {
     private ServerSocket serverSocket = null;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
-    private final messageHandler messageHandler;
+    private final MessageHandler messageHandler;
     private int receivedMessageID;
     private int sentMessageID;
-    private static int messageID;
 
 
-    public Connection(String ConnectIP, ChatController controller) {
+    public Connection(String ConnectIP, ChatController controller, MessageHandler messageHandler) {
         this.connectIP = ConnectIP;
+        this.messageHandler = messageHandler;
         this.controller = controller;
         this.start();
-        this.sentMessageID = 0;
     }
 
 
-    public void run() {                         //multithreading thread used to stop blocking, that happens when a serversocket waits for a first message, from blocking the whole Programm;
+    public void run() {
         try {
             if (connectIP != null && !connectIP.isEmpty()) {
                 socket = new Socket(connectIP, port);
@@ -48,22 +47,22 @@ public class Connection extends Thread {
             return;
         }
 
-        while (!socket.isClosed()) {                                            //function will send received ChatMessage messages to a method in the controller to be displayed
+        while (!socket.isClosed()) {
             try {
                 Object obj = in.readObject();
                 if (obj instanceof ChatMessage) {
                     ChatMessage message = (ChatMessage) obj;
-                    Platform.runLater(() -> {controller.displayMessage(message);});
-                    receivedMessageID = (int)message.getID;
-                    sendMessage(receivedMessageID);
-                } else if (((int) obj).equals(messageHandler.findMessageID((int) obj))) {
                     Platform.runLater(() -> {
-                        messageHandler.messageList(messageHandler.findMessageID((int) obj)).updateState(-1);
+                        controller.displayMessage(message);
+                    });
+                    receivedMessageID = (int) message.getMessageID();
+                    sendMessage(receivedMessageID);
+                } else if (messageHandler.findMessageID((int) obj)) {
+                    Platform.runLater(() -> {
+                        messageHandler.messages(messageHandler.findMessageID((int) obj)).updateState(2);
                     });
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -74,13 +73,13 @@ public class Connection extends Thread {
             out.writeObject(message);
             out.flush();
             if (message instanceof ChatMessage) {
-                sentMessageID = message.getID;
-                messageHandler.messageList(sentMessageID).updateState(1);
+                sentMessageID = ((ChatMessage) message).getMessageID();
+                messageHandler.messages(sentMessageID).updateState(1);
             }
         } else {
             if (message instanceof ChatMessage) {
-                sentMessageID = message.getID;
-                messageHandler.messageList(sentMessageID).updateState(-1);
+                sentMessageID = ((ChatMessage) message).getMessageID();
+                messageHandler.messages(sentMessageID).updateState(-1);
             }
         }
     }
@@ -88,10 +87,13 @@ public class Connection extends Thread {
     public void shutdown() throws IOException {
         socket.close();
         in.close();
+        out.close();
     }
 
     public void reconnect() {
         try {
+            socket.close();
+            in.close();
             this.socket = new Socket(connectIP, port);
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.out.flush();
@@ -107,9 +109,5 @@ public class Connection extends Thread {
         return connectIP;
     }
 
-    public static int getMessageID() {
-        messageID++;
-        return messageID;
-    }
 
 }
