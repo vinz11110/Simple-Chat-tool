@@ -7,16 +7,19 @@ public class MessageHandler {
     private List<ChatMessage> messages = new ArrayList<>();
     private ChatMessage message;
 
-    public MessageHandler(ChatMessage message){
-        this.message = message;
-    }
-
-
-
     public boolean findMessageID(int ID){
         for(ChatMessage message: messages){
             if(message !=null && message.getMessageID() == ID){
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public Object findMessageByID(int ID){
+        for(ChatMessage message: messages){
+            if(ID == message.getMessageID()) {
+                return message;
             }
         }
         return false;

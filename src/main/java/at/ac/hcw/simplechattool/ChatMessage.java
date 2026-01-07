@@ -1,6 +1,5 @@
 package at.ac.hcw.simplechattool;
 
-import java.sql.Time;
 import java.time.format.DateTimeFormatter;
 
 public class ChatMessage {
