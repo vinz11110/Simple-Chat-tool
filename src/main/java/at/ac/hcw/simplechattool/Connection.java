@@ -1,7 +1,5 @@
 package at.ac.hcw.simplechattool;
-
 import javafx.application.Platform;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,8 +12,6 @@ public class Connection extends Thread {
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
     private final MessageHandler messageHandler;
-    private int receivedMessageID;
-    private int sentMessageID;
 
 
     public Connection(String ConnectIP, ChatController controller, MessageHandler messageHandler) {
@@ -55,11 +51,11 @@ public class Connection extends Thread {
                     Platform.runLater(() -> {
                         controller.displayMessage(message);
                     });
-                    receivedMessageID = (int) message.getMessageID();
+                    int receivedMessageID = (int) message.getMessageID();
                     sendMessage(receivedMessageID);
                 } else if (messageHandler.findMessageID((int) obj)) {
                     Platform.runLater(() -> {
-                        messageHandler.messages(messageHandler.findMessageID((int) obj)).updateState(2);
+                        messageHandler.findMessageByID((int) obj).markAsReceived();
                     });
                 }
             } catch (IOException | ClassNotFoundException e) {
@@ -69,17 +65,20 @@ public class Connection extends Thread {
     }
 
     public void sendMessage(Object message) throws IOException {
+        int sentMessageID;
+
         if (!socket.isClosed()) {
             out.writeObject(message);
             out.flush();
             if (message instanceof ChatMessage) {
                 sentMessageID = ((ChatMessage) message).getMessageID();
-                messageHandler.messages(sentMessageID).updateState(1);
+                messageHandler.addMessage((ChatMessage) message);
+                messageHandler.findMessageByID(sentMessageID).markAsSent();
             }
         } else {
             if (message instanceof ChatMessage) {
                 sentMessageID = ((ChatMessage) message).getMessageID();
-                messageHandler.messages(sentMessageID).updateState(-1);
+                messageHandler.findMessageByID(sentMessageID).markAsNotSent();
             }
         }
     }
