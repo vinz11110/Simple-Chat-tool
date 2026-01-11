@@ -1,23 +1,28 @@
 package at.ac.hcw.simplechattool;
 import javafx.application.Platform;
 import java.io.*;
+import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Connection extends Thread {
     private final int port = 5000;
     private String connectIP;
+    private String myIP;
     private Socket socket = null;
     private ServerSocket serverSocket = null;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
     private final MessageHandler messageHandler;
+    private ChatController controller;
 
 
-    public Connection(String ConnectIP, ChatController controller, MessageHandler messageHandler) {
+    public Connection(String ConnectIP, ChatController controller, MessageHandler messageHandler) throws UnknownHostException {
         this.connectIP = ConnectIP;
         this.messageHandler = messageHandler;
         this.controller = controller;
+        this.myIP = Inet4Address.getLocalHost().getHostAddress();
         this.start();
     }
 
@@ -31,7 +36,6 @@ public class Connection extends Thread {
                 serverSocket = new ServerSocket(port);
                 socket = serverSocket.accept();
                 serverSocket.close();
-                this.connectIP = socket.getInetAddress().getHostAddress();
             }
             this.out = new ObjectOutputStream(socket.getOutputStream());
             this.out.flush();
@@ -75,11 +79,6 @@ public class Connection extends Thread {
                 messageHandler.addMessage((ChatMessage) message);
                 messageHandler.findMessageByID(sentMessageID).markAsSent();
             }
-        } else {
-            if (message instanceof ChatMessage) {
-                sentMessageID = ((ChatMessage) message).getMessageID();
-                messageHandler.findMessageByID(sentMessageID).markAsNotSent();
-            }
         }
     }
 
@@ -104,8 +103,8 @@ public class Connection extends Thread {
         }
     }
 
-    public String getConnectIP() {
-        return connectIP;
+    public String myIP() {
+        return myIP;
     }
 
 
