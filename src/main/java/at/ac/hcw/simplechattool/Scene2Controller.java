@@ -37,7 +37,7 @@ public class Scene2Controller {
 
         if (user.isEmpty() || password.isEmpty()) {
             showAlert("ERROR", "Please enter username and password!");
-            return
+            return;
         }
         System.out.println("Login try: " + user);
         SceneSwitcher.switchScene(event, "chat-view.fxml");
