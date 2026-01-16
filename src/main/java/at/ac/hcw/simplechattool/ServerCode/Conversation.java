@@ -4,16 +4,16 @@ public class Conversation {
 
     private int ID1;
     private int ID2;
-    private final int conversationID;
-    private static int convoID = 1;
+    private final int convoID;
+    private static int nextConvoID = 1;
 
 
     public Conversation(){
-        this.conversationID = convoID++;
+        this.convoID = nextConvoID++;
     }
 
     public int getConversationID(){
-        return conversationID;
+        return convoID;
     }
     public int getConnectionID(){
         return ID1;
