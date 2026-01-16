@@ -16,7 +16,6 @@ public class ChatApp extends Application {
         stage.setScene(scene);
         stage.show();
         MessageHandler handler = new MessageHandler();
-        Scene3Controller controller = new Scene3Controller();
-        Connection connection = new Connection(controller, handler);
+        Connection connection = new Connection(handler);
     }
 }

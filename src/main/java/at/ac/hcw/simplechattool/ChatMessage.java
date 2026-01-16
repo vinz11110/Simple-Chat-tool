@@ -8,6 +8,12 @@ public class ChatMessage {
     private final int messageID;
     private static int nextMessageID = 1;
     private int currentState = 0;       //States can be: 0 = not sent, 1 Sent, 2 Received, 3 Read,
+//    Message Types:
+//    1: Standard text message
+//    2: Message Status updater
+//    3: ConnectIDs exchange
+//    4: Check if typing
+
 
     public ChatMessage(String sender, String content, int currentState){
         this.sender = sender;
