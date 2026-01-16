@@ -7,7 +7,8 @@ public class ChatMessage {
     private final String content;
     private final int messageID;
     private static int nextMessageID = 1;
-    private int currentState = 0;       //States can be: 0 = not sent, 1 Sent, 2 Received, 3 Read,
+    private int currentState = 0; //States can be: 0 Not sent, 1 Sent, 2 Received, 3 Read,
+    private int messageType;
 //    Message Types:
 //    1: Standard text message
 //    2: Message Status updater
@@ -15,16 +16,17 @@ public class ChatMessage {
 //    4: Check if typing
 
 
-    public ChatMessage(String sender, String content, int currentState){
+    public ChatMessage(String sender, String content, int currentState, int messageType){
         this.sender = sender;
         this.content = content;
         this.messageID = nextMessageID++;
         this.currentState = currentState;
+        this.messageType = messageType;
 
     }
 
 
-    public String getMessage(String sender, String content){
+    public String getFormattedMessage(String sender, String content){
         DateTimeFormatter time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return String.format("[%s] %s: \n%s", time, sender, content);
     }
@@ -59,7 +61,15 @@ public class ChatMessage {
         return currentState;
     }
 
-    public void setCurrentState(int state){
+    public int getType(){
+        return messageType;
+    }
 
+    public void setCurrentState(int state){
+        this.currentState = state;
+    }
+
+    public void setMessageType(int type){
+        this.messageType = type;
     }
 }
