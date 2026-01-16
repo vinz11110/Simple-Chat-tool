@@ -11,6 +11,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.application.Platform;
 
+import java.io.IOException;
+
 public class Scene4Controller {
 
     @FXML
@@ -20,8 +22,9 @@ public class Scene4Controller {
     private TextField messageField;
 
     @FXML
-    protected void onSendMessage(ActionEvent event) {
+    protected void onSendMessage(ActionEvent event) throws IOException {
         String message = messageField.getText();
+        ChatApp.connection.sendMessage(message);
         if (!message.trim().isEmpty()) {
             addSentMessage(message);
             messageField.clear();

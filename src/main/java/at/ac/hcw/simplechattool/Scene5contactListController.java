@@ -23,7 +23,7 @@ public class Scene5contactListController {
     @FXML
     public void initialize() {
         addContactCard("Simon Fürsatz");
-        addContactCard("Vincenz Manu");
+        addContactCard("Vinzenz Manu");
         addContactCard("Björn Stuparek");
     }
 

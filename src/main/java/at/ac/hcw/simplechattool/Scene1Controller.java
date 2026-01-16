@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class Scene1Controller {
 
@@ -13,9 +14,10 @@ public class Scene1Controller {
     private TextField IpField;
 
     @FXML
-    protected void onConnectionClick(ActionEvent event) {
+    protected void onConnectionClick(ActionEvent event) throws IOException {
         String ip = IpField.getText();
-
+        int ipInt = Integer.parseInt(IpField.getText());
+        ChatApp.connection.setConnectID2(ipInt);
         if (ip == null || ip.trim().isEmpty()) {
             showAlert("Error", "Please enter an IP-address!");
             return;

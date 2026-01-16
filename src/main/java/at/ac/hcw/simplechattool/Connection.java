@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Connection extends Thread {
-    private int connectID2;
+    private int connectID2=0;
     private Socket socket = null;
     private ObjectInputStream in = null;
     private ObjectOutputStream out = null;
@@ -19,6 +19,7 @@ public class Connection extends Thread {
     public Connection(MessageHandler messageHandler) throws UnknownHostException {
         this.messageHandler = messageHandler;
         this.start();
+        this.controller=controller;
     }
 
     public void run() {
@@ -33,7 +34,7 @@ public class Connection extends Thread {
             return;
         }
 
-        while (!socket.isClosed()) {
+        while (!socket.isClosed() && connectID2 !=0 && controller!=null) {
             //checks if user is typing, sets bit accordingly
             if (controller.getMessageField.isEmpty) {
                 checkTyping = 0;
@@ -58,7 +59,7 @@ public class Connection extends Thread {
                 } //type 2: updates a specific message's status to received
                 else if (message.getType() == 2 && messageHandler.findMessageID(message.getMessageID())) {
                     messageHandler.findMessageByID((int) obj).markAsReceived();
-                }//type 4: sends typing status if status changes
+                }//type 4: sends typing status if status changes (1:typing; 0: not typing)
                 else if (message.getType() == 4) {
                     if (otherTyping != message.getContent()) {
                         Platform.runLater(() -> {
@@ -119,9 +120,10 @@ public class Connection extends Thread {
         return connectID;
     }
 
-    public void setController(Scene4Controller controller2) {
-        this.controller = controller2;
+    public void setController(Scene4Controller controller) {
+        this.controller = controller;
     }
+
     //sets the counterpart connection ID and sends it to the server to be saved
     public void setConnectID2(int connectID2) throws IOException {
         this.connectID2 = connectID2;

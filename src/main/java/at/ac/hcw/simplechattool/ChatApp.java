@@ -8,14 +8,15 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ChatApp extends Application {
+    public static Connection connection;
     @Override
     public void start(Stage stage) throws IOException {
+        MessageHandler handler = new MessageHandler();
         FXMLLoader fxmlLoader = new FXMLLoader(ChatApp.class.getResource("Scene1.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Orca-Talk");
         stage.setScene(scene);
         stage.show();
-        MessageHandler handler = new MessageHandler();
-        Connection connection = new Connection(handler);
+        connection = new Connection(handler);
     }
 }
