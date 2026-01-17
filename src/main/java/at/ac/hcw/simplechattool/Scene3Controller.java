@@ -3,8 +3,6 @@ package at.ac.hcw.simplechattool;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-import javax.swing.*;
-
 public class Scene3Controller {
 
     @FXML

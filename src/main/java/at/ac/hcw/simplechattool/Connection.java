@@ -120,7 +120,7 @@ public class Connection extends Thread {
         return connectID;
     }
 
-    public void setController(Scene4Controller controller) {
+    public void setController(ChatScreenController controller) {
         this.controller = controller;
     }
 
