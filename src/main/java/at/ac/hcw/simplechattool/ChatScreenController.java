@@ -28,7 +28,7 @@ public class ChatScreenController {
     @FXML
     protected void onSendMessage(ActionEvent event) throws IOException {
         String message = messageField.getText();
-        ChatApp.connection.sendMessage(message);
+        ChatApp.connection.sendMessage(message, 1);
         if (!message.trim().isEmpty()) {
             addSentMessage(message);
             messageField.clear();
@@ -81,13 +81,21 @@ public class ChatScreenController {
         messageField.setOnAction(event -> {
             try {
                 onSendMessage(event);
-            }   catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             message.heightProperty().addListener((observable, oldValue, newValue) -> {
                 scrollPane.setVvalue(1.0);
             });
         });
+    }
+
+    public boolean checkTyping() {
+        String message = messageField.getText();
+        if (message.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     @FXML

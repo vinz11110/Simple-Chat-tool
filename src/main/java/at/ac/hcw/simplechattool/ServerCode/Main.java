@@ -3,7 +3,9 @@ package at.ac.hcw.simplechattool.ServerCode;
 import java.io.IOException;
 
 public class Main extends Thread {
+    public static ListHandler handler;
     public static void main(String[] args) throws IOException {
+        handler = new ListHandler();
         ConnectionAutoCheck autoCheck = new ConnectionAutoCheck();
         autoCheck.start();
     }
