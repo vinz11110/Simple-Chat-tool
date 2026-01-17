@@ -81,17 +81,17 @@ public class Connection extends Thread {
                     sendMessage(receivedMessageID, 2);
                 }//type3: sets the connection ID, to be shared with other users
                 else if (message.getType() == 3) {
-                    this.connectID = message.getContent();
+                    this.connectID = message.getContentID();
                 } //type 2: updates a specific message's status to received
                 else if (message.getType() == 2 && messageHandler.findMessageID(message.getMessageID())) {
-                    messageHandler.findMessageByID(message.getContent()).markAsReceived();
+                    messageHandler.findMessageByID(message.getContentID()).markAsReceived();
                 }//type 4: sends typing status if status changes (1:typing; 0: not typing)
                 else if (message.getType() == 4 && controller != null) {
-                    if (otherTyping != message.getContent()) {
+                    if (otherTyping != message.getContentID()) {
                         Platform.runLater(() -> {
                             controller.updateTyping(message.getContent());
                         });
-                        otherTyping = message.getContent();
+                        otherTyping = message.getContentID();
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
@@ -130,7 +130,7 @@ public class Connection extends Thread {
         if (!socket.isClosed()) {
             out.writeObject(message);
             out.flush();
-            if (message.getType == 1) {
+            if (message.getType() == 1) {
                 message.markAsSent();
             }
         }
