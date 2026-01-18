@@ -13,6 +13,7 @@ public class ServerConnection extends Thread {
     private ListHandler handler;
     private int connectID2;
     private String deviceID;
+    private String nickName;
 
     public ServerConnection(Socket socket) throws IOException {
         this.socket = socket;
@@ -36,16 +37,27 @@ public class ServerConnection extends Thread {
                 Object obj = in.readObject();
                 ChatMessage message = (ChatMessage) obj;
                 // any type but 3 gets forwarded directly to the other user
-                if (message.getType() == 1 || message.getType() == 2 || message.getType() == 4) {
+                if (message.getType() == 1 || message.getType() == 2 || message.getType() == 4 || message.getType()==5) {
                     forwardMessage(obj, connectID);
+                    if(message.getType()==4){
+                        nickName=message.getContent();
+                    }
                     //type 3: sets the connection ID of the counterpart user, sets or creates a conversation ID for this connection
                 } else if (message.getType() == 3) {
-                    setConnectID2(message.getContent());
+                    setConnectID2(message.getContentID());
                     setConversID(handler.checkby2IDs(connectID, connectID2));
+                    Main.print(conversID);
+                    Main.printText("Connect2 is set -->" + getConnectID());
                 } else if (message.getType() == 31) {
                     deviceID = message.getContent();
+                    Main.printText(deviceID);
                     this.connectID = handler.checkAndSetConnectID(deviceID);
+                    handler.checkServerConnection(this);
+                    sendMessage(0,0);
+                    Main.print(connectID);
                     sendMessage(connectID, 3);
+                } else if (message.getType()==0){
+                    sendMessage(0,0);
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
@@ -58,6 +70,10 @@ public class ServerConnection extends Thread {
         ChatMessage messageObj = new ChatMessage(connectID, message, type);
         this.send(messageObj);
     }
+    public void sendMessage(String message, int type) throws IOException {
+        ChatMessage messageObj = new ChatMessage(connectID, message, 0, type);
+        this.send(messageObj);
+    }
 
     public void send(Object message) throws IOException {
         if (!socket.isClosed()) {
@@ -67,8 +83,12 @@ public class ServerConnection extends Thread {
     }
 
     //finds teh counterpart connection and sends the message object through its Connection class
-    public void forwardMessage(Object message, int connectionID) {
-        handler.searchConversationID(conversID, connectionID).send(message);
+    public void forwardMessage(Object message, int connectionID) throws IOException {
+        if(handler.searchConversationID(conversID, connectionID).getConversID()==conversID){
+            handler.searchConversationID(conversID, connectionID).send(message);}
+        else {
+            handler.searchConversationID(conversID, connectionID).sendMessage(nickName,5);
+        }
     }
 
     public void setConversID(int ID) {
@@ -77,6 +97,14 @@ public class ServerConnection extends Thread {
 
     public int getConnectID() {
         return connectID;
+    }
+
+    public int getConversID() {
+        return conversID;
+    }
+
+    public String getDeviceID() {
+        return deviceID;
     }
 
     public void setConnectID2(int connectID2) {

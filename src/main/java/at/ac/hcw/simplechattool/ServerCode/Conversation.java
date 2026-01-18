@@ -8,10 +8,11 @@ public class Conversation {
     private static int nextConvoID = 1;
 
 
-    public Conversation(){
+    public Conversation(int ID1, int ID2){
+        this.ID2=ID2;
+        this.ID1=ID1;
         this.convoID = nextConvoID++;
     }
-
     public int getConversationID(){
         return convoID;
     }

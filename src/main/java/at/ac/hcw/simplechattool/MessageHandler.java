@@ -24,7 +24,7 @@ public class MessageHandler {
         return false;
     }
 
-    public Object findMessageByID(int ID){
+    public ChatMessage findMessageByID(int ID){
         for(ChatMessage message: messages){
             if(ID == message.getMessageID()) {
                 return message;

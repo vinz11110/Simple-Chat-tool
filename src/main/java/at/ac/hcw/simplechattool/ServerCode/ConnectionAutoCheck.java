@@ -17,6 +17,7 @@ public class ConnectionAutoCheck extends Thread {
             try {
                 socket = serverSocket.accept();
                 ServerConnection connection = new ServerConnection(socket);
+                Main.printText("new connection to server");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

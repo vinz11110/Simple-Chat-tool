@@ -4,11 +4,9 @@ import javafx.application.Platform;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.UUID;
 import java.io.File;
-import java.nio.file.Paths;
 
 public class Connection extends Thread {
     ;
@@ -23,8 +21,9 @@ public class Connection extends Thread {
     private String deviceID;
     private static final String FILE_PATH = "Files" + File.separator + "deviceID.txt";
     private File DID;
-    private TypingThread thread;
     private StartScreenController startController;
+    private String nickname;
+    private String otherNickname;
 
     public Connection(MessageHandler messageHandler) throws IOException {
         this.messageHandler = messageHandler;
@@ -90,17 +89,17 @@ public class Connection extends Thread {
                 } //type 2: updates a specific message's status to received
                 else if (message.getType() == 2 && messageHandler.findMessageID(message.getMessageID())) {
                     messageHandler.findMessageByID(message.getContentID()).markAsReceived();
-                }//type 4: sends typing status if status changes (1:typing; 0: not typing)
-                else if (message.getType() == 4 && controller != null) {
-                    if (otherTyping != message.getContentID()) {
-                        Platform.runLater(() -> {
-                            controller.updateTyping(message.getContent());
-                        });
-                        otherTyping = message.getContentID();
-                    }
+                }else if (message.getType()==0){
+                    sendMessage(0,0);
+                } else if(message.getType()==4){
+                    otherNickname=message.getContent();
+                } else if(message.getType()==5){
+                    Platform.runLater(() -> {
+                        controller.showRequest(message.getContent());
+                    });
                 }
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
@@ -166,7 +165,6 @@ public class Connection extends Thread {
 
     public void setController(ChatScreenController controller) {
         this.controller = controller;
-        thread= new TypingThread(controller, this);
     }
 
     //sets the counterpart connection ID and sends it to the server to be saved
@@ -177,6 +175,14 @@ public class Connection extends Thread {
 
     public int getConnectID() {
         return connectID;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getOtherNickname() {
+        return otherNickname;
     }
 
     public void setStartController(StartScreenController startController) {

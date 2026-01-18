@@ -9,4 +9,10 @@ public class Main extends Thread {
         ConnectionAutoCheck autoCheck = new ConnectionAutoCheck();
         autoCheck.start();
     }
+    public static void print(int x){
+        System.out.println(x);
+    }
+    public static void printText(String x){
+        System.out.println(x);
+    }
 }
