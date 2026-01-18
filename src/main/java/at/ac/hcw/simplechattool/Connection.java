@@ -24,6 +24,7 @@ public class Connection extends Thread {
     private static final String FILE_PATH = "Files" + File.separator + "deviceID.txt";
     private File DID;
     private TypingThread thread;
+    private StartScreenController startController;
 
     public Connection(MessageHandler messageHandler) throws IOException {
         this.messageHandler = messageHandler;
@@ -82,6 +83,10 @@ public class Connection extends Thread {
                 }//type3: sets the connection ID, to be shared with other users
                 else if (message.getType() == 3) {
                     this.connectID = message.getContentID();
+                    //updating the ID to make it visible in StartScreen.fxml
+                    if (startController != null) {
+                        startController.updateId(this.connectID);
+                    }
                 } //type 2: updates a specific message's status to received
                 else if (message.getType() == 2 && messageHandler.findMessageID(message.getMessageID())) {
                     messageHandler.findMessageByID(message.getContentID()).markAsReceived();
@@ -172,5 +177,9 @@ public class Connection extends Thread {
 
     public int getConnectID() {
         return connectID;
+    }
+
+    public void setStartController(StartScreenController startController) {
+        this.startController = startController;
     }
 }

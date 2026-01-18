@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
+import javafx.application.Platform;
 
 import java.io.IOException;
 
@@ -11,6 +13,9 @@ public class StartScreenController {
 
     @FXML
     private TextField IpField;
+
+    @FXML
+    private Label ownIdLabel;
 
     @FXML
     protected void onConnectionClick(ActionEvent event) throws IOException {
@@ -45,5 +50,24 @@ public class StartScreenController {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    public void initialize() {
+        if (ChatApp.connection != null) {
+            ChatApp.connection.setStartController(this);
+
+            if (ChatApp.connection.getConnectID() != 0) {
+                updateId(ChatApp.connection.getConnectID());
+            }
+        }
+    }
+
+    public void updateId(int id) {
+        Platform.runLater(() -> {
+            if (ownIdLabel != null) {
+                ownIdLabel.setText("Your ID: " + id);
+            }
+        });
     }
 }

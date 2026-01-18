@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
 
@@ -24,6 +25,9 @@ public class ChatScreenController {
 
     @FXML
     private ScrollPane scrollPane;
+
+    @FXML
+    private Label typing;
 
     @FXML
     protected void onSendMessage(ActionEvent event) throws IOException {
@@ -101,5 +105,23 @@ public class ChatScreenController {
     @FXML
     protected void onBackClick(ActionEvent event) {
         SceneSwitcher.switchScene(event, "StartScreen.fxml");
+    }
+
+    public void updateTyping(int status) {
+        Platform.runLater(() -> {
+            if (typing != null) {
+                if (status == 1) {
+                    typing.setText("is typing...");
+                    typing.setVisible(true);
+                }   else {
+                    typing.setText("");
+                    typing.setVisible(false);
+                }
+            }
+        });
+    }
+
+    public boolean checkIfTyping() {
+        return !messageField.getText().isEmpty();
     }
 }

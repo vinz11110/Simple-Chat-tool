@@ -20,25 +20,28 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
-            <Button mnemonicParsing="false" onAction="#onBackClick" prefHeight="29.0" prefWidth="62.0" style="-fx-background-radius: 20; -fx-background-color: rgba(0,0,0,0.2);" text="← BACK" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#onBackClick" prefHeight="29.0" prefWidth="78.0" style="-fx-background-radius: 20; -fx-background-color: rgba(0,0,0,0.2);" text="← BACK" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
                <HBox.margin>
-                  <Insets top="5.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+            <Region prefHeight="50.0" prefWidth="441.0" HBox.hgrow="ALWAYS" />
+            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/orca%20(2).png" />
                </image>
             </ImageView>
-            <Label text="Orca-Talk" textFill="WHITE">
+            <Label alignment="TOP_LEFT" prefHeight="25.0" prefWidth="145.0" text="Orca-Talk" textFill="WHITE">
                <font>
-                  <Font name="System Bold" size="16.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
+               <padding>
+                  <Insets top="12.0" />
+               </padding>
             </Label>
-            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </top>
@@ -61,27 +64,36 @@
          <bottom>
             <HBox prefHeight="70.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox maxHeight="50.0" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: WHITE; -fx-background-radius: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);" HBox.hgrow="ALWAYS">
+                  <VBox prefHeight="200.0" prefWidth="450.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TextField fx:id="messageField" minHeight="50.0" promptText="Enter Message..." style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                        <Label fx:id="typing" textFill="#0f4c75" visible="false">
                            <padding>
-                              <Insets left="30.0" />
+                              <Insets bottom="5.0" left="25.0" />
                            </padding>
-                           <font>
-                              <Font name="System Bold" size="14.0" />
-                           </font>
-                        </TextField>
-                        <Button minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#onSendMessage" style="-fx-background-color: transparent; -fx-background-radius: 50;">
-                           <graphic>
-                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/send.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
+                        </Label>
+                        <HBox maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: WHITE; -fx-background-radius: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);">
+                           <children>
+                              <TextField fx:id="messageField" minHeight="50.0" promptText="Enter Message..." style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">
+                                 <padding>
+                                    <Insets left="30.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font>
+                              </TextField>
+                              <Button minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onAction="#onSendMessage" style="-fx-background-color: transparent; -fx-background-radius: 50;">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@images/send.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
             </HBox>
          </bottom>

@@ -52,7 +52,7 @@ public class ContactListController {
         chatButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 20;");
         chatButton.setOnAction(e -> {
             System.out.println("Start chat with: " + name);
-            SceneSwitcher.switchScene(e, "chat-view.fxml");
+            SceneSwitcher.switchScene(e, "ChatScreen.fxml");
         });
 
         card.getChildren().addAll(nameLabel, spacer, chatButton);
