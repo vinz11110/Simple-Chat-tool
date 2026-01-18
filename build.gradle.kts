@@ -27,7 +27,7 @@ tasks.withType<JavaCompile> {
 
 application {
     mainModule.set("at.ac.hcw.simplechattool")
-    mainClass.set("at.ac.hcw.simplechattool.HelloApplication")
+    mainClass.set("at.ac.hcw.simplechattool.ChatApp")
 }
 
 javafx {

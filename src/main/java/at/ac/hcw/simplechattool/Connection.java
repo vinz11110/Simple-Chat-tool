@@ -1,5 +1,7 @@
 package at.ac.hcw.simplechattool;
 
+import at.ac.hcw.simplechattool.ChatControllers.ChatScreenController;
+import at.ac.hcw.simplechattool.ChatControllers.StartScreenController;
 import javafx.application.Platform;
 
 import java.io.*;

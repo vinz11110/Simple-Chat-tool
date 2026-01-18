@@ -4,7 +4,6 @@ module at.ac.hcw.simplechattool {
     requires java.sql;
     requires java.desktop;
     requires javafx.base;
-    requires at.ac.hcw.simplechattool;
 
 
     opens at.ac.hcw.simplechattool to javafx.fxml;

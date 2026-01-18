@@ -12,7 +12,7 @@ public class ChatApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         MessageHandler handler = new MessageHandler();
-        FXMLLoader fxmlLoader = new FXMLLoader(ChatApp.class.getResource("Scene1.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(ChatApp.class.getResource("StartScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Orca-Talk");
         stage.setScene(scene);

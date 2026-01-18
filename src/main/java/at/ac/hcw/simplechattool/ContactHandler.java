@@ -1,5 +1,7 @@
 package at.ac.hcw.simplechattool;
 
+import at.ac.hcw.simplechattool.ChatControllers.ContactListController;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ public class ContactHandler {
     private static final String FILE_PATH = "Files" + File.separator + "Contacts.dat";
     private File contacts;
 
-    public ContactHandler() {
+    public ContactHandler(ContactListController controller) {
         this.contacts = new File(FILE_PATH);
         if (!contacts.exists()) {
             contactList = new ArrayList<>();
@@ -21,7 +23,7 @@ public class ContactHandler {
                 contactList = new ArrayList<>();
             }}
         for (Contact contact : contactList) {
-            controller.AddContact(contact.getID, contact.getName);
+            controller.addContact(contact.getID(), contact.getName());
         }
     }
 

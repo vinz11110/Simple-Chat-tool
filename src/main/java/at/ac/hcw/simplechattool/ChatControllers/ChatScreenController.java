@@ -1,5 +1,7 @@
-package at.ac.hcw.simplechattool;
+package at.ac.hcw.simplechattool.ChatControllers;
 
+import at.ac.hcw.simplechattool.ChatApp;
+import at.ac.hcw.simplechattool.ChatMessage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -114,4 +116,7 @@ public class ChatScreenController {
         });
     }
 
+    public void showRequest(String content) {
+
+    }
 }

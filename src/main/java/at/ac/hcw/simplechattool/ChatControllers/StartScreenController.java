@@ -1,5 +1,6 @@
-package at.ac.hcw.simplechattool;
+package at.ac.hcw.simplechattool.ChatControllers;
 
+import at.ac.hcw.simplechattool.ChatApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;

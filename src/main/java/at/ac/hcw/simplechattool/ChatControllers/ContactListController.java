@@ -1,4 +1,4 @@
-package at.ac.hcw.simplechattool;
+package at.ac.hcw.simplechattool.ChatControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,6 +57,9 @@ public class ContactListController {
 
         card.getChildren().addAll(nameLabel, spacer, chatButton);
         contactContainer.getChildren().add(card);
+    }
+    public void addContact(int ID, String name){
+
     }
 
     @FXML

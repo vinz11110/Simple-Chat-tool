@@ -1,4 +1,4 @@
-package at.ac.hcw.simplechattool;
+package at.ac.hcw.simplechattool.ChatControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
