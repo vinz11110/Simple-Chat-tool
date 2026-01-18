@@ -37,10 +37,10 @@ public class ServerConnection extends Thread {
                 Object obj = in.readObject();
                 ChatMessage message = (ChatMessage) obj;
                 // any type but 3 gets forwarded directly to the other user
-                if (message.getType() == 1 || message.getType() == 2 || message.getType() == 4 || message.getType()==5) {
+                if (message.getType() == 1 || message.getType() == 2 || message.getType()==5) {
                     forwardMessage(obj, connectID);
-                    if(message.getType()==4){
-                        nickName=message.getContent();
+                    if(message.getType()==1){
+                        nickName=message.getNickname();
                     }
                     //type 3: sets the connection ID of the counterpart user, sets or creates a conversation ID for this connection
                 } else if (message.getType() == 3) {
@@ -71,7 +71,7 @@ public class ServerConnection extends Thread {
         this.send(messageObj);
     }
     public void sendMessage(String message, int type) throws IOException {
-        ChatMessage messageObj = new ChatMessage(connectID, message, 0, type);
+        ChatMessage messageObj = new ChatMessage(connectID, message, 0, type, nickName);
         this.send(messageObj);
     }
 

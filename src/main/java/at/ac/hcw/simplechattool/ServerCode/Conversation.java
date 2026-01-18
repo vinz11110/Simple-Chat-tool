@@ -1,11 +1,15 @@
 package at.ac.hcw.simplechattool.ServerCode;
 
+import java.io.IOException;
+
 public class Conversation {
 
     private int ID1;
     private int ID2;
     private final int convoID;
     private static int nextConvoID = 1;
+    private String IDname1;
+    private String IDname2;
 
 
     public Conversation(int ID1, int ID2){
@@ -13,6 +17,7 @@ public class Conversation {
         this.ID1=ID1;
         this.convoID = nextConvoID++;
     }
+
     public int getConversationID(){
         return convoID;
     }

@@ -94,13 +94,6 @@ public class ChatScreenController {
         });
     }
 
-    public boolean checkTyping() {
-        String message = messageField.getText();
-        if (message.isEmpty()) {
-            return false;
-        }
-        return true;
-    }
 
     @FXML
     protected void onBackClick(ActionEvent event) {
@@ -121,7 +114,4 @@ public class ChatScreenController {
         });
     }
 
-    public boolean checkIfTyping() {
-        return !messageField.getText().isEmpty();
-    }
 }

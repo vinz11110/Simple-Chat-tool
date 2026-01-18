@@ -25,6 +25,7 @@ public class Connection extends Thread {
     private String nickname;
     private String otherNickname;
 
+
     public Connection(MessageHandler messageHandler) throws IOException {
         this.messageHandler = messageHandler;
         this.start();
@@ -79,6 +80,7 @@ public class Connection extends Thread {
                     });
                     int receivedMessageID = (int) message.getMessageID();
                     sendMessage(receivedMessageID, 2);
+                    otherNickname=message.getNickname();
                 }//type3: sets the connection ID, to be shared with other users
                 else if (message.getType() == 3) {
                     this.connectID = message.getContentID();
@@ -91,8 +93,6 @@ public class Connection extends Thread {
                     messageHandler.findMessageByID(message.getContentID()).markAsReceived();
                 }else if (message.getType()==0){
                     sendMessage(0,0);
-                } else if(message.getType()==4){
-                    otherNickname=message.getContent();
                 } else if(message.getType()==5){
                     Platform.runLater(() -> {
                         controller.showRequest(message.getContent());
@@ -116,7 +116,7 @@ public class Connection extends Thread {
 
     //message sending method used for standard text messages and internal data
     public void sendMessage(String message, int type) throws IOException {
-        ChatMessage messageObj = new ChatMessage(connectID, message, 0, type);
+        ChatMessage messageObj = new ChatMessage(connectID, message, 0, type, nickname);
         this.send(messageObj);
         if (type == 1) {
             messageHandler.addMessage(messageObj);

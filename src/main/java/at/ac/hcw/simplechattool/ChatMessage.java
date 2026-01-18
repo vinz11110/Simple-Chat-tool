@@ -1,8 +1,9 @@
 package at.ac.hcw.simplechattool;
 
+import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 
-public class ChatMessage {
+public class ChatMessage implements Serializable {
     private int sender;
     private String content;
     private int contentID;
@@ -10,6 +11,8 @@ public class ChatMessage {
     private static int nextMessageID = 1;
     private int currentState = 0; //States can be: 0 Not sent, 1 Sent, 2 Received, 3 Read,
     private int messageType;
+    private static final long serialVersionUID = 1L;
+    private String nickname;
 //    Message Types:
 //    1: Standard text message
 //    2: Message Status updater
@@ -23,12 +26,13 @@ public class ChatMessage {
         this.messageType = messageType;
     }
 
-    public ChatMessage(int sender, String content, int currentState, int messageType){
+    public ChatMessage(int sender, String content, int currentState, int messageType, String nicknane){
         this.sender = sender;
         this.content = content;
         this.messageID = nextMessageID++;
         this.currentState = currentState;
         this.messageType = messageType;
+        this.nickname =nicknane;
 
     }
     public ChatMessage(int sender, int contentID, int currentState, int messageType){
@@ -104,5 +108,9 @@ public class ChatMessage {
     //Changes Message Type
     public void setMessageType(int type){
         this.messageType = type;
+    }
+
+    public String getNickname() {
+        return nickname;
     }
 }
