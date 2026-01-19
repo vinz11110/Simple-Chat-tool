@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
 
@@ -128,11 +129,7 @@ public class ChatScreenController {
 
     @FXML
     protected void onNewChatClick(ActionEvent event) {
-<<<<<<< Updated upstream
-        SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/HubScreen.fxml");
-=======
         SceneSwitcher.switchScene(event, "HubScreen.fxml");
->>>>>>> Stashed changes
     }
 
     @FXML
