@@ -54,7 +54,7 @@ public class ContactListController {
 
                     ChatApp.connection.setOtherNickname(name);
 
-                    SceneSwitcher.switchScene(e, "ChatScreen.fxml");
+                    SceneSwitcher.switchScene(e, "/at/ac/hcw/simplechattool/ChatScreen.fxml");
                 }   catch (IOException except) {
                     except.printStackTrace();
                 }

@@ -106,7 +106,7 @@ public class ChatScreenController {
 
     @FXML
     protected void onBackClick(ActionEvent event) {
-        SceneSwitcher.switchScene(event, "StartScreen.fxml");
+        SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/StartScreen.fxml");
     }
 
 //    public void updateTyping(int status) {
