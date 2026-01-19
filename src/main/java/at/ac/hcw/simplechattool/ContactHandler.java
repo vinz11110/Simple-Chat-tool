@@ -38,6 +38,13 @@ public void fillList(ContactListController controller){
         contactList.remove(contact);
         saveContacts();
     }
+    public boolean checkContactExist(int ID){
+        for( Contact contact: contactList){
+            if(contact.getID()==ID){
+                return true;
+            }
+        }return false;
+    }
 
     public void saveContacts(){
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(contacts))) {

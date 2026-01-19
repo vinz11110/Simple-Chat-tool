@@ -68,7 +68,8 @@ public class ContactListController {
         contactContainer.getChildren().add(card);
     }
     public void addContact(int ID, String name){
-            addContactCard(ID, name);
+        if (!ChatApp.contactHandler.checkContactExist(ID)){
+            addContactCard(ID, name);}
     }
 
     @FXML
