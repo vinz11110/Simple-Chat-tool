@@ -1,5 +1,6 @@
 package at.ac.hcw.simplechattool.ChatControllers;
 
+import at.ac.hcw.simplechattool.ContactHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -34,7 +35,7 @@ public class ContactListController {
         card.setSpacing(15);
         card.setPadding(new Insets(10,10,10,20));
 
-        card.setStyle("-fx-background-color: white;" +
+        card.setStyle("-fx-background-color: #A9A9A9;" +
                       "-fx-background-radius: 15;" +
                       "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1)");
 
@@ -68,6 +69,11 @@ public class ContactListController {
     }
     public void addContact(int ID, String name){
             addContactCard(ID, name);
+    }
+
+    @FXML
+    public void initialize() {
+        new ContactHandler(this);
     }
 
 }
