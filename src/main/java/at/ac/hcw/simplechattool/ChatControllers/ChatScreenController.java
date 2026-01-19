@@ -3,6 +3,7 @@ package at.ac.hcw.simplechattool.ChatControllers;
 import at.ac.hcw.simplechattool.ChatApp;
 import at.ac.hcw.simplechattool.ChatMessage;
 import at.ac.hcw.simplechattool.Contact;
+import at.ac.hcw.simplechattool.ContactHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.scene.text.TextFlow;
 import javafx.application.Platform;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 
@@ -32,6 +34,9 @@ public class ChatScreenController {
 
     @FXML
     private Label chatHeaderLabel;
+
+    @FXML
+    private VBox contactSideBar;
 
 //    @FXML
 //    private Label typing;
@@ -91,6 +96,7 @@ public class ChatScreenController {
             ChatApp.connection.setController(this);
             updateChatHeader();
         }
+
         messageField.setOnAction(event -> {
             try {
                 onSendMessage(event);
@@ -102,7 +108,6 @@ public class ChatScreenController {
             });
         });
     }
-
 
     @FXML
     protected void onBackClick(ActionEvent event) {

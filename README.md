@@ -5,3 +5,4 @@ Standard Sync Workflow in CLI:
 4.    Prepare files for upload: "git add ."
 5.    Package your work: "git commit -m "Comment for Commit""
 6.    Upload to the team: "git push"
+t

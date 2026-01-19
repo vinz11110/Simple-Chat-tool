@@ -53,4 +53,8 @@ public void fillList(ContactListController controller){
             e.printStackTrace();
         }
     }
+
+    public List<Contact> getContactList() {
+        return contactList;
+    }
 }

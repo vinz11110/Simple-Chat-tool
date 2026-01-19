@@ -1,6 +1,7 @@
 package at.ac.hcw.simplechattool.ChatControllers;
 
 import at.ac.hcw.simplechattool.ContactHandler;
+import at.ac.hcw.simplechattool.Contact;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -64,7 +65,26 @@ public class ContactListController {
             }
         });
 
-        card.getChildren().addAll(nameLabel, spacer, chatButton);
+        Button deleteButton = new Button("Remove");
+        deleteButton.setStyle("-fx-background-color: #D00000; -fx-text-fill; white; -fx-background-radius: 20;");
+        deleteButton.setOnAction(e -> {
+            if (ChatApp.contactHandler != null && ChatApp.contactHandler.getContactList() != null) {
+                Contact toRemove = null;
+                for (Contact c : ChatApp.contactHandler.getContactList()) {
+                    if (c.getID() == ID) {
+                        toRemove = c;
+                        break;
+                    }
+                }
+                if (toRemove != null) {
+                    ChatApp.contactHandler.removeContact(toRemove);
+                    contactContainer.getChildren().remove(card);
+                    System.out.println("Contact removed: " + name);
+                }
+            }
+        });
+
+        card.getChildren().addAll(nameLabel, spacer, chatButton, deleteButton);
         contactContainer.getChildren().add(card);
     }
     public void addContact(int ID, String name){
@@ -74,7 +94,11 @@ public class ContactListController {
 
     @FXML
     public void initialize() {
-        ChatApp.contactHandler.fillList(this);
+        if (ChatApp.contactHandler != null) {
+            ChatApp.contactHandler.fillList(this);
+        }   else {
+            System.out.println("ERROR");
+        }
     }
 
 }
