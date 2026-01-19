@@ -55,7 +55,7 @@ public class ChatScreenController {
         textNode.setStyle("-fx-fill: white; -fx-font-size: 14px;");
 
         TextFlow textFlow = new TextFlow(textNode);
-        textFlow.setStyle("-fx-background-color: linear-gradient(to right, #373b44, #4286f4)" + "-fx-background-radius: 20;" + "-fx-padding: 10px;");
+        textFlow.setStyle("-fx-background-color: linear-gradient(to right, #373b44, #4286f4);" + "-fx-background-radius: 20;" + "-fx-padding: 10px;");
         textFlow.setPadding(new Insets(10));
 
         hbox.getChildren().add(textFlow);

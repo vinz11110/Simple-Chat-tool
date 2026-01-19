@@ -21,7 +21,7 @@ public class ContactListController {
 
     @FXML
     protected void onBackClick(ActionEvent event) {
-        SceneSwitcher.switchScene(event, "at/ac/hcw/simplechattool/HubScreen.fxml");
+        SceneSwitcher.switchScene(event, "HubScreen.fxml");
     }
 
     private void addContactCard(int ID, String name) {
