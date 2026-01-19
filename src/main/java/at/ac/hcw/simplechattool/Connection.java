@@ -197,4 +197,8 @@ public class Connection extends Thread {
     public int getConnectID2() {
         return connectID2;
     }
+
+    public void setOtherNickname(String name) {
+        this.otherNickname = name;
+    }
 }

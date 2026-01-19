@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.control.Button;
+import at.ac.hcw.simplechattool.ChatApp;
+import java.io.IOException;
 
 public class ContactListController {
 
@@ -18,15 +20,15 @@ public class ContactListController {
     private VBox contactContainer;
 
     @FXML
-    private TextField newContactField;
-
-
-    @FXML
     protected void onBackClick(ActionEvent event) {
         SceneSwitcher.switchScene(event, "at/ac/hcw/simplechattool/HubScreen.fxml");
     }
 
-    private void addContactCard(String name) {
+    private void addContactCard(int ID, String name) {
+        if (contactContainer == null) {
+            return;
+        }
+
         HBox card = new HBox();
         card.setAlignment(Pos.CENTER_LEFT);
         card.setSpacing(15);
@@ -45,23 +47,27 @@ public class ContactListController {
         Button chatButton = new Button("Chat");
         chatButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 20;");
         chatButton.setOnAction(e -> {
-            System.out.println("Start chat with: " + name);
-            SceneSwitcher.switchScene(e, "ChatScreen.fxml");
+            System.out.println("Start chat with: " + name + " (" + ID + ")");
+            if (ChatApp.connection != null) {
+                try {
+                    ChatApp.connection.setConnectID2(ID);
+
+                    ChatApp.connection.setOtherNickname(name);
+
+                    SceneSwitcher.switchScene(e, "ChatScreen.fxml");
+                }   catch (IOException except) {
+                    except.printStackTrace();
+                }
+            }   else {
+                System.out.println("ERROR: No connection to server");
+            }
         });
 
         card.getChildren().addAll(nameLabel, spacer, chatButton);
         contactContainer.getChildren().add(card);
     }
     public void addContact(int ID, String name){
-
+            addContactCard(ID, name);
     }
 
-    @FXML
-    protected void onAddContact(ActionEvent event) {
-        String name = newContactField.getText();
-        if (name != null && !name.trim().isEmpty()) {
-            addContactCard(name);
-            newContactField.clear();
-        }
-    }
 }

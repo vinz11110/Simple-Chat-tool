@@ -9,7 +9,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -36,7 +35,14 @@
                   <Insets top="10.0" />
                </HBox.margin>
             </Button>
-            <Region prefHeight="50.0" prefWidth="289.0" HBox.hgrow="ALWAYS" />
+            <Label fx:id="chatHeaderLabel" prefHeight="17.0" prefWidth="276.0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="15.0" />
+               </HBox.margin>
+            </Label>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/orca%20(2).png" />

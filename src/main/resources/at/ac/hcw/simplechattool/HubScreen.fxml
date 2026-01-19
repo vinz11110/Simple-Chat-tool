@@ -27,7 +27,7 @@
                   <Insets top="10.0" />
                </HBox.margin>
             </Button>
-            <Region prefHeight="50.0" prefWidth="441.0" HBox.hgrow="ALWAYS" />
+            <Region prefHeight="50.0" prefWidth="420.0" HBox.hgrow="ALWAYS" />
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/orca%20(2).png" />

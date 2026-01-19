@@ -27,7 +27,7 @@
                         <Insets left="15.0" />
                     </padding>
                 </Label>
-                <Region prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                <Region prefHeight="50.0" prefWidth="180.0" HBox.hgrow="ALWAYS" />
                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@images/orca%20(2).png" />

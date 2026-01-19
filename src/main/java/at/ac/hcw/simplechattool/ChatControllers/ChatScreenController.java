@@ -2,6 +2,7 @@ package at.ac.hcw.simplechattool.ChatControllers;
 
 import at.ac.hcw.simplechattool.ChatApp;
 import at.ac.hcw.simplechattool.ChatMessage;
+import at.ac.hcw.simplechattool.Contact;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -28,6 +29,9 @@ public class ChatScreenController {
     @FXML
     private ScrollPane scrollPane;
 
+    @FXML
+    private Label chatHeaderLabel;
+
 //    @FXML
 //    private Label typing;
 
@@ -50,7 +54,7 @@ public class ChatScreenController {
         textNode.setStyle("-fx-fill: white; -fx-font-size: 14px;");
 
         TextFlow textFlow = new TextFlow(textNode);
-        textFlow.setStyle("-fx-background-color: linear-gradient(to right, #2af598, #009efd);" + "-fx-background-radius: 20;" + "-fx-padding: 10px;");
+        textFlow.setStyle("-fx-background-color: linear-gradient(to right, #373b44, #4286f4)" + "-fx-background-radius: 20;" + "-fx-padding: 10px;");
         textFlow.setPadding(new Insets(10));
 
         hbox.getChildren().add(textFlow);
@@ -77,12 +81,14 @@ public class ChatScreenController {
 
     public void displayMessage(ChatMessage message) {
         Platform.runLater(() -> addReceivedMessage(message.getContent()));
+        Platform.runLater(this::updateChatHeader);
     }
 
     @FXML
     public void initialize() {
         if (ChatApp.connection != null) {
             ChatApp.connection.setController(this);
+            updateChatHeader();
         }
         messageField.setOnAction(event -> {
             try {
@@ -122,22 +128,47 @@ public class ChatScreenController {
 
     @FXML
     protected void onNewChatClick(ActionEvent event) {
+<<<<<<< Updated upstream
         SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/HubScreen.fxml");
+=======
+        SceneSwitcher.switchScene(event, "HubScreen.fxml");
+>>>>>>> Stashed changes
     }
 
     @FXML
     protected void onAddContactClick(ActionEvent event) {
         if (ChatApp.connection != null) {
             int otherID = ChatApp.connection.getConnectID2();
-            String contatName = "User " + otherID;
 
-            System.out.println("Adding Contact: " + contatName + " (" + otherID + ")");
+            String otherName = ChatApp.connection.getOtherNickname();
+            if (otherName == null || otherName.isEmpty()) {
+                otherName = "User " + otherID;
+            }
+
+            ContactListController tempController = new ContactListController();
+            at.ac.hcw.simplechattool.ContactHandler contactHandler = new at.ac.hcw.simplechattool.ContactHandler(tempController);
+
+            contactHandler.addContact(otherID, otherName);
+
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Success");
+            alert.setTitle("Saved");
             alert.setHeaderText(null);
-            alert.setContentText("Contact added!");
+            alert.setContentText(otherName + " has been added to your contacts!");
             alert.showAndWait();
+        }
+    }
+
+    public void updateChatHeader() {
+        if (ChatApp.connection != null) {
+            int otherID = ChatApp.connection.getConnectID2();
+            String nickname = ChatApp.connection.getOtherNickname();
+
+            if (nickname == null || nickname.isEmpty()) {
+                Platform.runLater(() -> chatHeaderLabel.setText("Connected to: ID " + otherID));
+            }   else {
+                Platform.runLater(() -> chatHeaderLabel.setText("Connected to: " + nickname + " (" + otherID + ")"));
+            }
         }
     }
 }
