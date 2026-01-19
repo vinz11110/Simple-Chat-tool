@@ -1,13 +1,14 @@
 package at.ac.hcw.simplechattool.ServerCode;
 
 public class DeviceLink {
+    //    Object used to set a permanent link between a device and its connection ID
     private String deviceID;
     private static int connectIDs = 10000000;
     private int connectID;
 
-    public DeviceLink(String deviceID){
-        this.deviceID=deviceID;
-        this.connectID=connectIDs;
+    public DeviceLink(String deviceID) {
+        this.deviceID = deviceID;
+        this.connectID = connectIDs;
         connectIDs++;
     }
 

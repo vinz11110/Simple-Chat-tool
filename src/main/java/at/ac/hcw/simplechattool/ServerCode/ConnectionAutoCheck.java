@@ -12,6 +12,7 @@ public class ConnectionAutoCheck extends Thread {
     public ConnectionAutoCheck() throws IOException {
         serverSocket = new ServerSocket(port);
     }
+
     public void run() { //repeatedly checks for new connection requests from clients and creates new Connection instances accordingly
         while (true) {
             try {

@@ -24,7 +24,7 @@ public class Connection extends Thread {
     private static final String FILE_PATH = "Files" + File.separator + "deviceID.txt";
     private File DID;
     private StartScreenController startController;
-    private String nickname="n";
+    private String nickname = "n";
     private String otherNickname;
 
 
@@ -45,6 +45,7 @@ public class Connection extends Thread {
             System.out.println(e);
             return;
         }
+//        Checks if a file containing the unique device ID exists, checks contents and if needed creates a new ID
         if (DID.exists()) {
             try (Scanner fileScanner = new Scanner(DID)) {
                 if (fileScanner.hasNextLine()) {
@@ -68,26 +69,26 @@ public class Connection extends Thread {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         while (!socket.isClosed()) {
-            //checks if user is typing, sets bit accordingly
             try {
+                //once a message is received, checks message type to correctly handle received info
                 Object obj = in.readObject();
                 ChatMessage message = (ChatMessage) obj;
-                //once a message is received, checks message type to correctly handle received info
-                //type 1: simple message, calls message display method
-                if (message.getType() == 1 &&  controller != null) {
+                //type 1: simple message, calls message display method, sends the connected user the Message ID back to assure messages are received,
+                // sets other users nickname from message contents nickname
+                if (message.getType() == 1 && controller != null) {
                     Platform.runLater(() -> {
                         controller.displayMessage(message);
                     });
                     int receivedMessageID = (int) message.getMessageID();
                     sendMessage(receivedMessageID, 2);
-                    otherNickname=message.getNickname();
+                    otherNickname = message.getNickname();
                 }//type3: sets the connection ID, to be shared with other users
                 else if (message.getType() == 3) {
                     this.connectID = message.getContentID();
-                    ChatApp.print(connectID); //updating the ID to make it visible in StartScreen.fxml
-                    if (startController != null && connectID!=0) {
+                    ChatApp.print(connectID);
+                    //updating the ID to make it visible in StartScreen.fxml
+                    if (startController != null && connectID != 0) {
                         Platform.runLater(() -> {
                             startController.updateId(this.connectID);
                         });
@@ -95,9 +96,13 @@ public class Connection extends Thread {
                 } //type 2: updates a specific message's status to received
                 else if (message.getType() == 2 && messageHandler.findMessageID(message.getMessageID())) {
                     messageHandler.findMessageByID(message.getContentID()).markAsReceived();
-                }else if (message.getType()==0){
-                    sendMessage(0,0);
-                } else if(message.getType()==5){
+                }
+//                type 2: used for constant message flow to keep connection active
+                else if (message.getType() == 0) {
+                    sendMessage(0, 0);
+                }
+//                Type 5: received messaging requests
+                else if (message.getType() == 5) {
                     Platform.runLater(() -> {
                         controller.showRequest(message.getContent());
                     });
@@ -108,6 +113,7 @@ public class Connection extends Thread {
         }
     }
 
+    //Mehod used for creating and writing a new Unique device ID to the Device ID
     private String writeUUID() {
         UUID uuidIfNeeded = UUID.randomUUID();
         try (FileWriter writer = new FileWriter(DID)) {
@@ -166,7 +172,7 @@ public class Connection extends Thread {
         }
     }
 
-
+    //Method to set the current controller used on the main Chatscreen
     public void setController(ChatScreenController controller) {
         this.controller = controller;
     }
@@ -189,6 +195,7 @@ public class Connection extends Thread {
         return otherNickname;
     }
 
+    //Method to set the current controller used on the Starting screen
     public void setStartController(StartScreenController startController) {
         this.startController = startController;
         ChatApp.printText(String.valueOf(startController.getClass()));

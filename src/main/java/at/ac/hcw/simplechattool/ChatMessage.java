@@ -19,10 +19,12 @@ public class ChatMessage implements Serializable {
     //3 Read
     private int messageType;
 //    Message Types:
+//    0: used for empty messages, only used to keep connection upright
 //    1: Standard text message
 //    2: Message Status updater
 //    3: ConnectIDs exchange
-//    4: Check if typing
+//    31: Sends device ID to server
+//    5: holds information of a messaging rquest
 
     //Constructor used to send the connection ID specifically
     public ChatMessage(int sender, int contentID, int messageType){

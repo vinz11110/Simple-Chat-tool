@@ -1,6 +1,7 @@
 package at.ac.hcw.simplechattool.ServerCode;
 
 import at.ac.hcw.simplechattool.ChatMessage;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -18,7 +19,7 @@ public class ServerConnection extends Thread {
     public ServerConnection(Socket socket) throws IOException {
         this.socket = socket;
         this.start();
-        handler=Main.handler;
+        handler = Main.handler;
     }
 
     public void run() {
@@ -36,28 +37,33 @@ public class ServerConnection extends Thread {
                 //once a message is received, checks message type to correctly handle received info
                 Object obj = in.readObject();
                 ChatMessage message = (ChatMessage) obj;
-                // any type but 3 gets forwarded directly to the other user
-                if (message.getType() == 1 || message.getType() == 2 || message.getType()==5) {
+                // message types 1, 2 and 5 get forwarded as they are not server relevant
+                if (message.getType() == 1 || message.getType() == 2 || message.getType() == 5) {
                     forwardMessage(obj, connectID);
-                    if(message.getType()==1){
-                        nickName=message.getNickname();
+                    if (message.getType() == 1) {
+                        nickName = message.getNickname();
                     }
-                    //type 3: sets the connection ID of the counterpart user, sets or creates a conversation ID for this connection
-                } else if (message.getType() == 3) {
+                }
+                //type 3: sets the connection ID of the counterpart user, sets or creates a conversation ID for this connection
+                else if (message.getType() == 3) {
                     setConnectID2(message.getContentID());
                     setConversID(handler.checkby2IDs(connectID, connectID2));
                     Main.print(conversID);
                     Main.printText("Connect2 is set -->" + getConnectID());
-                } else if (message.getType() == 31) {
+                }
+//                Type 31: messages that carry a devices unique ID used to allocate the correct connection ID to it
+                else if (message.getType() == 31) {
                     deviceID = message.getContent();
                     Main.printText(deviceID);
                     this.connectID = handler.checkAndSetConnectID(deviceID);
                     handler.checkServerConnection(this);
-                    sendMessage(0,0);
+                    sendMessage(0, 0);
                     Main.print(connectID);
                     sendMessage(connectID, 3);
-                } else if (message.getType()==0){
-                    sendMessage(0,0);
+                }
+//                Type 0: used for empty messages used in a constant message stream to keep the server client connection awake
+                else if (message.getType() == 0) {
+                    sendMessage(0, 0);
                 }
             } catch (IOException | ClassNotFoundException e) {
                 break;
@@ -65,16 +71,19 @@ public class ServerConnection extends Thread {
         }
     }
 
-    //message sending method used for sending the internal connection ID
+    //Method used to send internal data only
     public void sendMessage(int message, int type) throws IOException {
         ChatMessage messageObj = new ChatMessage(connectID, message, type);
         this.send(messageObj);
     }
+
+    //    Method used to send standard chat messages but also internal data
     public void sendMessage(String message, int type) throws IOException {
         ChatMessage messageObj = new ChatMessage(connectID, message, 0, type, nickName);
         this.send(messageObj);
     }
 
+    //Method used to send ChatMessage objects
     public void send(Object message) throws IOException {
         if (!socket.isClosed()) {
             out.writeObject(message);
@@ -84,10 +93,10 @@ public class ServerConnection extends Thread {
 
     //finds teh counterpart connection and sends the message object through its Connection class
     public void forwardMessage(Object message, int connectionID) throws IOException {
-        if(handler.searchConversationID(conversID, connectionID).getConversID()==conversID){
-            handler.searchConversationID(conversID, connectionID).send(message);}
-        else {
-            handler.searchConversationID(conversID, connectionID).sendMessage(nickName,5);
+        if (handler.searchConversationID(conversID, connectionID).getConversID() == conversID) {
+            handler.searchConversationID(conversID, connectionID).send(message);
+        } else {
+            handler.searchConversationID(conversID, connectionID).sendMessage(nickName, 5);
         }
     }
 
