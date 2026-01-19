@@ -22,7 +22,7 @@ public class ContactListController {
 
     @FXML
     protected void onBackClick(ActionEvent event) {
-        SceneSwitcher.switchScene(event, "HubScreen.fxml");
+        SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/HubScreen.fxml");
     }
 
     private void addContactCard(int ID, String name) {
@@ -73,7 +73,7 @@ public class ContactListController {
 
     @FXML
     public void initialize() {
-        new ContactHandler(this);
+        ChatApp.contactHandler.fillList(this);
     }
 
 }

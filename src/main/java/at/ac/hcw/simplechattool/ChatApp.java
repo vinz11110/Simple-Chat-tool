@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class ChatApp extends Application {
     public static Connection connection;
+    public static  ContactHandler contactHandler;
     @Override
     public void start(Stage stage) throws IOException {
         MessageHandler handler = new MessageHandler();
@@ -18,6 +19,7 @@ public class ChatApp extends Application {
         stage.setTitle("Orca-Talk");
         stage.setScene(scene);
         stage.show();
+        contactHandler = new ContactHandler();
 
     }
     public static void print(int x){

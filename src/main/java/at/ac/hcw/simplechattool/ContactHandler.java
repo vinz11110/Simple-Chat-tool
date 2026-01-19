@@ -11,7 +11,7 @@ public class ContactHandler {
     private static final String FILE_PATH = "Files" + File.separator + "Contacts.dat";
     private File contacts;
 
-    public ContactHandler(ContactListController controller) {
+    public ContactHandler() {
         this.contacts = new File(FILE_PATH);
         if (!contacts.exists()) {
             contactList = new ArrayList<>();
@@ -22,17 +22,16 @@ public class ContactHandler {
                 e.printStackTrace();
                 contactList = new ArrayList<>();
             }}
-        for (Contact contact : contactList) {
-            controller.addContact(contact.getID(), contact.getName());
-        }
     }
-
+public void fillList(ContactListController controller){
+    for (Contact contact : contactList) {
+        controller.addContact(contact.getID(), contact.getName());
+    }
+}
     public void addContact(int ID, String name) {
         Contact newContact = new Contact(ID, name);
         contactList.add(newContact);
         saveContacts();
-
-
     }
     //removes Contact from Contact List if Contact exists
     public void removeContact(Contact contact){

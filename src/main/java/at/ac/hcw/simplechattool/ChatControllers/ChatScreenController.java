@@ -141,13 +141,7 @@ public class ChatScreenController {
             if (otherName == null || otherName.isEmpty()) {
                 otherName = "User " + otherID;
             }
-
-            ContactListController tempController = new ContactListController();
-            at.ac.hcw.simplechattool.ContactHandler contactHandler = new at.ac.hcw.simplechattool.ContactHandler(tempController);
-
-            contactHandler.addContact(otherID, otherName);
-
-
+            ChatApp.contactHandler.addContact(otherID, otherName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Saved");
             alert.setHeaderText(null);
