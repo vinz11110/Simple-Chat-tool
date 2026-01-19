@@ -20,16 +20,10 @@ public class ContactListController {
     @FXML
     private TextField newContactField;
 
-//    @FXML
-//    public void initialize() {
-//        addContactCard("Simon Fürsatz");
-//        addContactCard("Vinzenz Manu");
-//        addContactCard("Björn Stuparek");
-//    }
 
     @FXML
     protected void onBackClick(ActionEvent event) {
-        SceneSwitcher.switchScene(event, "AfterLoginScreen.fxml");
+        SceneSwitcher.switchScene(event, "HubScreen.fxml");
     }
 
     private void addContactCard(String name) {

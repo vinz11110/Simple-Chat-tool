@@ -19,31 +19,40 @@ public class StartScreenController {
     private Label ownIdLabel;
 
     @FXML
+    private TextField nicknameField;
+
+    @FXML
     protected void onConnectionClick(ActionEvent event) throws IOException {
         String ID = IpField.getText();
-        if (ID == null || ID.trim().isEmpty()) {
+        String nickname = nicknameField.getText();
+
+        if (ID == null || ID.trim().isEmpty() || nickname == null || nickname.trim().isEmpty()) {
             showAlert("Error", "Please enter a valid ID");
             return;
         }
+
         try {
             int targetID = Integer.parseInt(ID);
             if (ChatApp.connection != null) {
+                ChatApp.connection.setNickname(nickname);
+
                 ChatApp.connection.setConnectID2(targetID);
-                System.out.println("Connecting with ID: " + targetID);
+
+                System.out.println("Connecting with ID: " + targetID + " as " + nickname);
                 SceneSwitcher.switchScene(event, "ChatScreen.fxml");
-            } else {
+            }   else {
                 showAlert("ERROR", "No connection to server");
             }
         }   catch (NumberFormatException e) {
-            showAlert("ERROR", "Please try again");
+            showAlert("ERROR", "ID must be a number");
         }
     }
 
-    @FXML
-    protected void onProfileClick(ActionEvent event) {
-        System.out.println("Switching to Profile Login");
-        SceneSwitcher.switchScene(event, "LoginScreen.fxml");
-    }
+//    @FXML
+//    protected void onProfileClick(ActionEvent event) {
+//        System.out.println("Switching to Profile Login");
+//        SceneSwitcher.switchScene(event, "LoginScreen.fxml");
+//    }
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

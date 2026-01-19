@@ -20,7 +20,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
          <children>
-            <Button mnemonicParsing="false" onAction="#onBackClick" prefHeight="29.0" prefWidth="78.0" style="-fx-background-radius: 20; -fx-background-color: rgba(0,0,0,0.2);" text="← BACK" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#onNewChatClick" prefHeight="29.0" prefWidth="86.0" style="-fx-background-radius: 20; -fx-background-color: rgba(0,0,0,0.2);" text="New Chat" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -28,7 +28,15 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Region prefHeight="50.0" prefWidth="441.0" HBox.hgrow="ALWAYS" />
+            <Button layoutX="25.0" layoutY="30.0" mnemonicParsing="false" onAction="#onAddContactClick" prefHeight="29.0" prefWidth="92.0" style="-fx-background-radius: 20; -fx-background-color: rgba(0,0,0,0.2);" text="Add Contact" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Region prefHeight="50.0" prefWidth="289.0" HBox.hgrow="ALWAYS" />
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/orca%20(2).png" />
@@ -66,11 +74,6 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="450.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="typing" textFill="#0f4c75" visible="false">
-                           <padding>
-                              <Insets bottom="5.0" left="25.0" />
-                           </padding>
-                        </Label>
                         <HBox maxHeight="50.0" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: WHITE; -fx-background-radius: 30; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);">
                            <children>
                               <TextField fx:id="messageField" minHeight="50.0" promptText="Enter Message..." style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS">

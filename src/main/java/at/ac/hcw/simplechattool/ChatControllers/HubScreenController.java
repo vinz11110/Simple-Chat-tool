@@ -6,7 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 
-public class AfterLoginScreenController {
+public class HubScreenController {
 
     @FXML
     private TextField ipField;

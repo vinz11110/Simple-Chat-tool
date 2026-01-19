@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -28,8 +29,8 @@ public class ChatScreenController {
     @FXML
     private ScrollPane scrollPane;
 
-    @FXML
-    private Label typing;
+//    @FXML
+//    private Label typing;
 
     @FXML
     protected void onSendMessage(ActionEvent event) throws IOException {
@@ -102,21 +103,42 @@ public class ChatScreenController {
         SceneSwitcher.switchScene(event, "StartScreen.fxml");
     }
 
-    public void updateTyping(int status) {
-        Platform.runLater(() -> {
-            if (typing != null) {
-                if (status == 1) {
-                    typing.setText("is typing...");
-                    typing.setVisible(true);
-                }   else {
-                    typing.setText("");
-                    typing.setVisible(false);
-                }
-            }
-        });
-    }
+//    public void updateTyping(int status) {
+//        Platform.runLater(() -> {
+//            if (typing != null) {
+//                if (status == 1) {
+//                    typing.setText("is typing...");
+//                    typing.setVisible(true);
+//                }   else {
+//                    typing.setText("");
+//                    typing.setVisible(false);
+//                }
+//            }
+//        });
+//    }
 
     public void showRequest(String content) {
 
+    }
+
+    @FXML
+    protected void onNewChatClick(ActionEvent event) {
+        SceneSwitcher.switchScene(event, "HubSreen.fxml");
+    }
+
+    @FXML
+    protected void onAddContactClick(ActionEvent event) {
+        if (ChatApp.connection != null) {
+            int otherID = ChatApp.connection.getConnectID2();
+            String contatName = "User " + otherID;
+
+            System.out.println("Adding Contact: " + contatName + " (" + otherID + ")");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Contact added!");
+            alert.showAndWait();
+        }
     }
 }

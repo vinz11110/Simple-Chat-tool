@@ -92,7 +92,7 @@ public class ChatMessage implements Serializable {
         return switch (getCurrentState()) {
             case 0 -> "Not Sent";
             case 1 -> "Sent";
-            case 2 -> "Reveived";
+            case 2 -> "Received";
             case 3 -> "Read";
             default -> null;
         };

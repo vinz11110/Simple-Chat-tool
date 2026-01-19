@@ -190,4 +190,8 @@ public class Connection extends Thread {
     public void setStartController(StartScreenController startController) {
         this.startController = startController;
     }
+
+    public int getConnectID2() {
+        return connectID2;
+    }
 }
