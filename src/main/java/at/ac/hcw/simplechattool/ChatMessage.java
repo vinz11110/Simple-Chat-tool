@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
 
 public class ChatMessage implements Serializable {
-    private int sender;
+    private int sender; //Unique Identifier of Sender
     private String content;
-    private int contentID;
-    private final int messageID;
+    private int contentID; //ConnectionID from Connection
+    private final int messageID; //Unique identifier for every message
     private static int nextMessageID = 1;
-    private int currentState = 0; //States can be: 0 Not sent, 1 Sent, 2 Received, 3 Read,
-    private int messageType;
     private static final long serialVersionUID = 1L;
     private String nickname;
+    private int currentState = 0;
+    //Message States:
+    //0 Not sent
+    //1 Sent
+    //2 Received
+    //3 Read
+    private int messageType;
 //    Message Types:
 //    1: Standard text message
 //    2: Message Status updater
@@ -47,13 +52,13 @@ public class ChatMessage implements Serializable {
     }
 
 
-
+    //The full Message in a String format
     public String getFormattedMessage(String sender, String content){
         DateTimeFormatter time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return String.format("[%s] %s: \n%s", time, sender, content);
     }
+    //Returns a formatted version of the Current State of the Message used to Display state in UI
     public String getFormattedState(){
-        //Returns a formatted version of the Current State of the Message used to Display state in UI
         return switch (getCurrentState()) {
             case 0 -> "Not Sent";
             case 1 -> "Sent";

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 public class Conversation {
 
-    private int ID1;
-    private int ID2;
-    private final int convoID;
+    private int ID1; //ID of User
+    private int ID2; //ID of other User
+    private final int convoID; //Unique Identifier for every Conversation
     private static int nextConvoID = 1;
     private String IDname1;
     private String IDname2;
