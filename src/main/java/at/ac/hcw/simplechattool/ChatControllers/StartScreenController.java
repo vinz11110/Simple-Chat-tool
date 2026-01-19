@@ -41,7 +41,7 @@ public class StartScreenController {
             } else {
                 showAlert("ERROR", "No connection to server");
             }
-        }   catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             showAlert("ERROR", "ID must be a number");
         }
     }
@@ -62,19 +62,17 @@ public class StartScreenController {
 
     @FXML
     public void initialize() {
-        if (ChatApp.connection != null) {
-            ChatApp.connection.setStartController(this);
-
-            if (ChatApp.connection.getConnectID() != 0) {
-                updateId(ChatApp.connection.getConnectID());
-            }
+        ChatApp.print(763);
+            if (ChatApp.connection != null) {
+                ChatApp.connection.setStartController(this);
+                ChatApp.printText(String.valueOf(this.getClass()));
         }
     }
 
     public void updateId(int id) {
         Platform.runLater(() -> {
             if (ownIdLabel != null) {
-                ownIdLabel.setText("Your ID: " + id);
+                ownIdLabel.setText("Your ID: " + String.valueOf(id));
             }
         });
     }

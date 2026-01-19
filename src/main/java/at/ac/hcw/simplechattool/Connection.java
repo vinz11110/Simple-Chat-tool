@@ -86,11 +86,12 @@ public class Connection extends Thread {
                 }//type3: sets the connection ID, to be shared with other users
                 else if (message.getType() == 3) {
                     this.connectID = message.getContentID();
-                    //updating the ID to make it visible in StartScreen.fxml
-                    if (startController != null) {
-                        startController.updateId(this.connectID);
+                    ChatApp.print(connectID); //updating the ID to make it visible in StartScreen.fxml
+                    if (startController != null && connectID!=0) {
+                        Platform.runLater(() -> {
+                            startController.updateId(this.connectID);
+                        });
                     }
-                    ChatApp.print(connectID);
                 } //type 2: updates a specific message's status to received
                 else if (message.getType() == 2 && messageHandler.findMessageID(message.getMessageID())) {
                     messageHandler.findMessageByID(message.getContentID()).markAsReceived();
@@ -190,6 +191,7 @@ public class Connection extends Thread {
 
     public void setStartController(StartScreenController startController) {
         this.startController = startController;
+        ChatApp.printText(String.valueOf(startController.getClass()));
     }
 
     public int getConnectID2() {
