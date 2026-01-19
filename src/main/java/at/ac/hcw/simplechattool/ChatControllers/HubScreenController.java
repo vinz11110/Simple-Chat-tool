@@ -16,7 +16,7 @@ public class HubScreenController {
 
     @FXML
     protected void onBackClick(ActionEvent event) {
-        SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/LoginScreen.fxml");
+        SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/HubScreen.fxml");
     }
 
     @FXML

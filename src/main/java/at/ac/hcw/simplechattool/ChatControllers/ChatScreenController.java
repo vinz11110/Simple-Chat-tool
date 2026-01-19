@@ -71,7 +71,7 @@ public class ChatScreenController {
         textNode.setStyle("-fx-fill: black; -fx-font-size: 14px;");
 
         TextFlow textFlow = new TextFlow(textNode);
-        textFlow.setStyle("-fx-background-color: white;" + "-fx-background-radius: 20; " + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1"
+        textFlow.setStyle("-fx-background-color: #A9A9A9;" + "-fx-background-radius: 20; " + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1"
                 + "-fx-padding: 10px");
 
         textFlow.setPadding(new Insets(10));
