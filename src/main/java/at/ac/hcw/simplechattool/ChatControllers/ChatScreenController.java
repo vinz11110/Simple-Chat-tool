@@ -76,7 +76,7 @@ public class ChatScreenController {
         textNode.setStyle("-fx-fill: black; -fx-font-size: 14px;");
 
         TextFlow textFlow = new TextFlow(textNode);
-        textFlow.setStyle("-fx-background-color: #A9A9A9;" + "-fx-background-radius: 20; " + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1)"
+        textFlow.setStyle("-fx-background-color: #A9A9A9;" + "-fx-background-radius: 20; " + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1);"
                 + "-fx-padding: 10px;");
 
         textFlow.setPadding(new Insets(10));
@@ -143,10 +143,11 @@ public class ChatScreenController {
     protected void onAddContactClick(ActionEvent event) {
         if (ChatApp.connection != null) {
             int otherID = ChatApp.connection.getConnectID2();
-
             String otherName = ChatApp.connection.getOtherNickname();
+
             if (otherName == null || otherName.isEmpty()) {
                 otherName = "User " + otherID;
+
 
             loadSideBarContacts();
 
