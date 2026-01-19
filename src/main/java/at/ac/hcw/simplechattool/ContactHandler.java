@@ -37,4 +37,12 @@ public class ContactHandler {
             }
 
     }
+
+    public void removeContact(Contact contact){
+        for(Contact contacts: contactList){
+            if(contacts == contact && contacts != null){
+                contactList.remove(contacts);
+            }
+        }
+    }
 }

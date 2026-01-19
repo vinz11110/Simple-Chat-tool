@@ -37,4 +37,12 @@ public class MessageHandler {
         else return;
     }
 
+    public void deleteMessage(ChatMessage msg){
+        for(ChatMessage message: messages){
+            if(message == msg && message != null){
+                messages.remove(message);
+            }
+        }
+    }
+
 }
