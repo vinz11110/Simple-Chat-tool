@@ -129,7 +129,7 @@ public class ChatScreenController {
 
     @FXML
     protected void onNewChatClick(ActionEvent event) {
-        SceneSwitcher.switchScene(event, "HubScreen.fxml");
+        SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/HubScreen.fxml");
     }
 
     @FXML
