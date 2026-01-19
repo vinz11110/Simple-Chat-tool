@@ -24,7 +24,7 @@ public class Connection extends Thread {
     private static final String FILE_PATH = "Files" + File.separator + "deviceID.txt";
     private File DID;
     private StartScreenController startController;
-    private String nickname;
+    private String nickname="n";
     private String otherNickname;
 
 
@@ -90,6 +90,7 @@ public class Connection extends Thread {
                     if (startController != null) {
                         startController.updateId(this.connectID);
                     }
+                    ChatApp.print(connectID);
                 } //type 2: updates a specific message's status to received
                 else if (message.getType() == 2 && messageHandler.findMessageID(message.getMessageID())) {
                     messageHandler.findMessageByID(message.getContentID()).markAsReceived();

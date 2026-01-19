@@ -30,17 +30,15 @@ public class StartScreenController {
             showAlert("Error", "Please enter a valid ID");
             return;
         }
-
         try {
             int targetID = Integer.parseInt(ID);
             if (ChatApp.connection != null) {
                 ChatApp.connection.setNickname(nickname);
 
                 ChatApp.connection.setConnectID2(targetID);
-
-                System.out.println("Connecting with ID: " + targetID + " as " + nickname);
-                SceneSwitcher.switchScene(event, "ChatScreen.fxml");
-            }   else {
+                System.out.println("Connecting with ID: " + targetID);
+                SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/ChatScreen.fxml");
+            } else {
                 showAlert("ERROR", "No connection to server");
             }
         }   catch (NumberFormatException e) {

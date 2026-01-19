@@ -19,4 +19,10 @@ public class ChatApp extends Application {
         stage.show();
         connection = new Connection(handler);
     }
+    public static void print(int x){
+        System.out.println(x);
+    }
+    public static void printText(String x){
+        System.out.println(x);
+    }
 }

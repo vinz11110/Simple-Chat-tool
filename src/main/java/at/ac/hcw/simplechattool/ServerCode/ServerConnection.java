@@ -60,7 +60,7 @@ public class ServerConnection extends Thread {
                     sendMessage(0,0);
                 }
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                break;
             }
         }
     }
