@@ -147,14 +147,9 @@ public class ChatScreenController {
             String otherName = ChatApp.connection.getOtherNickname();
             if (otherName == null || otherName.isEmpty()) {
                 otherName = "User " + otherID;
-<<<<<<< Updated upstream
-            } if(!ChatApp.contactHandler.checkContactExist(otherID)){
-=======
-            }
 
             loadSideBarContacts();
 
->>>>>>> Stashed changes
             ChatApp.contactHandler.addContact(otherID, otherName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Saved");
