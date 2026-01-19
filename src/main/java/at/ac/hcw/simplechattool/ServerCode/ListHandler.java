@@ -7,6 +7,16 @@ public class ListHandler {
     private List<Conversation> convList = new ArrayList<>();
     private List<ServerConnection> connectList = new ArrayList<>();
 
+    public ListHandler(){
+        int nextConvoID = 0;
+        for (Conversation conversation: convList){
+            if(conversation.getConversationID() > nextConvoID){
+                nextConvoID = conversation.getConversationID();
+            }
+        }
+        Conversation.setNextConvoID(nextConvoID);
+    }
+
     public int checkAndSetConnectID(String deviceID) {
         for(DeviceLink links: linkList){
             if(links.getDeviceID().equals(deviceID)){

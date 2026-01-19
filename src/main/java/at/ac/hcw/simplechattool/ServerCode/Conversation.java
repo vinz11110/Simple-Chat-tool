@@ -34,4 +34,7 @@ public class Conversation {
     public void setConnectionID2(int ID2){
         this.ID2 = ID2;
     }
+    public static void setNextConvoID(int nextConversationID){
+        nextConvoID = nextConversationID;
+    }
 }
