@@ -54,7 +54,7 @@
             </Button>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" spacing="15.0">
                <children>
-                  <TextField fx:id="ipField" alignment="CENTER" prefHeight="60.0" prefWidth="350.0" promptText="Enter a new Host IP..." style="-fx-background-color: linear-gradient(to right, #373b44, #4286f4); -fx-background-radius: 30; -fx-text-fill: white;">
+                  <TextField fx:id="ipField" alignment="CENTER" prefHeight="60.0" prefWidth="350.0" promptText="Enter a new Host ID..." style="-fx-background-color: linear-gradient(to right, #373b44, #4286f4); -fx-background-radius: 30; -fx-text-fill: white;">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
