@@ -145,13 +145,19 @@ public class ChatScreenController {
             String otherName = ChatApp.connection.getOtherNickname();
             if (otherName == null || otherName.isEmpty()) {
                 otherName = "User " + otherID;
-            }
+            } if(!ChatApp.contactHandler.checkContactExist(otherID)){
             ChatApp.contactHandler.addContact(otherID, otherName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Saved");
             alert.setHeaderText(null);
             alert.setContentText(otherName + " has been added to your contacts!");
-            alert.showAndWait();
+            alert.showAndWait();} else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Not Saved");
+                alert.setHeaderText(null);
+                alert.setContentText(otherName + " has not been added to your contacts!");
+                alert.showAndWait();
+            }
         }
     }
 

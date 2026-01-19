@@ -39,10 +39,14 @@ public void fillList(ContactListController controller){
         saveContacts();
     }
     public boolean checkContactExist(int ID){
+        int count =0;
         for( Contact contact: contactList){
             if(contact.getID()==ID){
-                return true;
+                count++;
             }
+
+        } if(count>1){
+            return true;
         }return false;
     }
 
