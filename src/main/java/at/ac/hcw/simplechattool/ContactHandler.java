@@ -30,19 +30,21 @@ public class ContactHandler {
     public void addContact(int ID, String name) {
         Contact newContact = new Contact(ID, name);
         contactList.add(newContact);
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(contacts))) {
-                out.writeObject(contactList);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        saveContacts();
+
 
     }
-
+    //removes Contact from Contact List if Contact exists
     public void removeContact(Contact contact){
-        for(Contact contacts: contactList){
-            if(contacts == contact && contacts != null){
-                contactList.remove(contacts);
-            }
+        contactList.remove(contact);
+        saveContacts();
+    }
+
+    public void saveContacts(){
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(contacts))) {
+            out.writeObject(contactList);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

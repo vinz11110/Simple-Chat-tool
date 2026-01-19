@@ -52,6 +52,16 @@ public class ChatMessage implements Serializable {
         DateTimeFormatter time = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return String.format("[%s] %s: \n%s", time, sender, content);
     }
+    public String getFormattedState(){
+        //Returns a formatted version of the Current State of the Message used to Display state in UI
+        return switch (getCurrentState()) {
+            case 0 -> "Not Sent";
+            case 1 -> "Sent";
+            case 2 -> "Received";
+            case 3 -> "Read";
+            default -> null;
+        };
+    }
     //Changes state to Sent
     public void markAsSent(){
         if(getCurrentState() == 0) setCurrentState(1);
@@ -67,7 +77,7 @@ public class ChatMessage implements Serializable {
     }
     //Changes state back to Unread
     public void markAsUnread(){
-       if(getCurrentState() > 1) setCurrentState(2);
+        if(getCurrentState() > 1) setCurrentState(2);
     }
 
     public int getSender(){
@@ -85,20 +95,8 @@ public class ChatMessage implements Serializable {
     public int getMessageID(){
         return messageID;
     }
-
     public int getCurrentState(){
         return currentState;
-    }
-
-    public String getFormattedState(){
-        //Returns a formatted version of the Current State of the Message used to Display state in UI
-        return switch (getCurrentState()) {
-            case 0 -> "Not Sent";
-            case 1 -> "Sent";
-            case 2 -> "Received";
-            case 3 -> "Read";
-            default -> null;
-        };
     }
 
     public int getType(){
@@ -115,5 +113,13 @@ public class ChatMessage implements Serializable {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public static void setNextMessageID(int nextID){
+        nextMessageID = nextID;
+    }
+
+    public int getNextMessageID(){
+        return nextMessageID;
     }
 }
