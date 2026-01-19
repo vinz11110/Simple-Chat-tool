@@ -19,22 +19,24 @@ public class ChatMessage implements Serializable {
 //    3: ConnectIDs exchange
 //    4: Check if typing
 
+    //Constructor used to send the connection ID specifically
     public ChatMessage(int sender, int contentID, int messageType){
         this.sender = sender;
         this.contentID = contentID;
         this.messageID = nextMessageID++;
         this.messageType = messageType;
     }
-
-    public ChatMessage(int sender, String content, int currentState, int messageType, String nicknane){
+    //Contructor used to pass "Frontend" information about the Message Object
+    public ChatMessage(int sender, String content, int currentState, int messageType, String nickname){
         this.sender = sender;
         this.content = content;
         this.messageID = nextMessageID++;
         this.currentState = currentState;
         this.messageType = messageType;
-        this.nickname =nicknane;
+        this.nickname =nickname;
 
     }
+    //Contructor to pass internal Data
     public ChatMessage(int sender, int contentID, int currentState, int messageType){
         this.sender = sender;
         this.contentID = contentID;
@@ -75,6 +77,7 @@ public class ChatMessage implements Serializable {
     public String getContent(){
         return content;
     }
+
     public int getContentID(){
         return contentID;
     }
