@@ -147,20 +147,17 @@ public class ChatScreenController {
 
             if (otherName == null || otherName.isEmpty()) {
                 otherName = "User " + otherID;
+            }
 
+            if (ChatApp.contactHandler != null) {
+                ChatApp.contactHandler.addContact(otherID, otherName);
 
-            loadSideBarContacts();
+                loadSideBarContacts();
 
-            ChatApp.contactHandler.addContact(otherID, otherName);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Saved");
-            alert.setHeaderText(null);
-            alert.setContentText(otherName + " has been added to your contacts!");
-            alert.showAndWait();} else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Not Saved");
                 alert.setHeaderText(null);
-                alert.setContentText(otherName + " has not been added to your contacts!");
+                alert.setContentText(otherName + " has been added to your contacts!");
                 alert.showAndWait();
             }
         }
