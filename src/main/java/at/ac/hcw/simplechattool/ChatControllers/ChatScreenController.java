@@ -155,7 +155,7 @@ public class ChatScreenController {
                 loadSideBarContacts();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Not Saved");
+                alert.setTitle("Saved");
                 alert.setHeaderText(null);
                 alert.setContentText(otherName + " has been added to your contacts!");
                 alert.showAndWait();

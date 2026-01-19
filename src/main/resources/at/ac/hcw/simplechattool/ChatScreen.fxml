@@ -60,7 +60,7 @@
       </HBox>
    </top>
    <left>
-      <VBox prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: #33415c;" BorderPane.alignment="CENTER" />
+      <VBox fx:id="contactSideBar" prefHeight="200.0" prefWidth="180.0" style="-fx-background-color: #33415c;" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ecf0f1;" BorderPane.alignment="CENTER">
