@@ -76,8 +76,8 @@ public class ChatScreenController {
         textNode.setStyle("-fx-fill: black; -fx-font-size: 14px;");
 
         TextFlow textFlow = new TextFlow(textNode);
-        textFlow.setStyle("-fx-background-color: #A9A9A9;" + "-fx-background-radius: 20; " + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1"
-                + "-fx-padding: 10px");
+        textFlow.setStyle("-fx-background-color: #A9A9A9;" + "-fx-background-radius: 20; " + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 1)"
+                + "-fx-padding: 10px;");
 
         textFlow.setPadding(new Insets(10));
 
@@ -96,6 +96,8 @@ public class ChatScreenController {
             ChatApp.connection.setController(this);
             updateChatHeader();
         }
+
+        loadSideBarContacts();
 
         messageField.setOnAction(event -> {
             try {
@@ -145,7 +147,14 @@ public class ChatScreenController {
             String otherName = ChatApp.connection.getOtherNickname();
             if (otherName == null || otherName.isEmpty()) {
                 otherName = "User " + otherID;
+<<<<<<< Updated upstream
             } if(!ChatApp.contactHandler.checkContactExist(otherID)){
+=======
+            }
+
+            loadSideBarContacts();
+
+>>>>>>> Stashed changes
             ChatApp.contactHandler.addContact(otherID, otherName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Saved");
@@ -171,6 +180,42 @@ public class ChatScreenController {
             }   else {
                 Platform.runLater(() -> chatHeaderLabel.setText("Connected to: " + nickname + " (" + otherID + ")"));
             }
+        }
+    }
+
+    private void loadSideBarContacts() {
+        if (contactSideBar == null) {
+            return;
+        }
+        contactSideBar.getChildren().clear();
+
+        if (ChatApp.contactHandler != null && ChatApp.contactHandler.getContactList() != null) {
+            for (Contact c : ChatApp.contactHandler.getContactList()) {
+                Button contactButton = new Button(c.getName());
+
+                contactButton.setPrefWidth(160);
+
+                contactButton.setStyle("-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-alignment: CENTER_LEFT;");
+
+                contactButton.setOnAction(e -> {
+                    switchChatTo(c.getID(), c.getName());
+                });
+                contactSideBar.getChildren().add(contactButton);
+            }
+        }
+    }
+
+    private void switchChatTo(int targetID, String targetName) {
+        System.out.println("Switching chat to: " + targetName);
+        try {
+            if (ChatApp.connection != null) {
+                ChatApp.connection.setConnectID2(targetID);
+                ChatApp.connection.setOtherNickname(targetName);
+                updateChatHeader();
+                message.getChildren().clear();
+            }
+        }   catch (IOException except) {
+            except.printStackTrace();
         }
     }
 }
