@@ -101,12 +101,6 @@ public class Connection extends Thread {
                 else if (message.getType() == 0) {
                     sendMessage(0, 0);
                 }
-//                Type 5: received messaging requests
-                else if (message.getType() == 5) {
-                    Platform.runLater(() -> {
-                        controller.showRequest(message.getContent());
-                    });
-                }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
