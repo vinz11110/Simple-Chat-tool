@@ -13,8 +13,12 @@ public class MessageHandler {
     public MessageHandler(){
         this.messagesFile = new File(FILE_PATH);
         File folder = new File("Files");
+        //tries to create new folder if it doesn't exist and throws Exception if it cant create it
         if(!folder.exists()){
-            folder.mkdirs();
+            boolean h = folder.mkdirs();
+            if(!h){
+                throw new RuntimeException("Could not create new folder: " + folder.getAbsolutePath());
+            }
         }
 
         if(!messagesFile.exists()){
