@@ -10,6 +10,7 @@ import javafx.application.Platform;
 
 import java.io.IOException;
 
+//Controller for first Screen where the user is able to pick their nickname and enter the ID of the person it wants to communicate with
 public class StartScreenController {
 
     @FXML
@@ -21,11 +22,13 @@ public class StartScreenController {
     @FXML
     private TextField nicknameField;
 
+    //Handles "Connect" Button click.
     @FXML
     protected void onConnectionClick(ActionEvent event) throws IOException {
         String ID = IpField.getText();
         String nickname = nicknameField.getText();
 
+        //Check if fields are empty
         if (ID == null || ID.trim().isEmpty() || nickname == null || nickname.trim().isEmpty()) {
             showAlert("Error", "Please enter a valid ID");
             return;
@@ -33,9 +36,10 @@ public class StartScreenController {
         try {
             int targetID = Integer.parseInt(ID);
             if (ChatApp.connection != null) {
+                //Sets the users details
                 ChatApp.connection.setNickname(nickname);
-
                 ChatApp.connection.setConnectID2(targetID);
+
                 System.out.println("Connecting with ID: " + targetID);
                 SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/ChatScreen.fxml");
             } else {
@@ -46,12 +50,8 @@ public class StartScreenController {
         }
     }
 
-//    @FXML
-//    protected void onProfileClick(ActionEvent event) {
-//        System.out.println("Switching to Profile Login");
-//        SceneSwitcher.switchScene(event, "LoginScreen.fxml");
-//    }
 
+    //Error display
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -60,6 +60,7 @@ public class StartScreenController {
         alert.showAndWait();
     }
 
+    //Enables the controller with the main app to receive updates. Gets called when FXML is loaded
     @FXML
     public void initialize() {
         ChatApp.print(763);
@@ -69,6 +70,7 @@ public class StartScreenController {
         }
     }
 
+    //Updates the UI with the user's ID assigned by the server connection
     public void updateId(int id) {
         Platform.runLater(() -> {
             if (ownIdLabel != null) {

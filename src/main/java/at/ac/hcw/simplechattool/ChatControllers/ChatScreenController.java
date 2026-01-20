@@ -21,6 +21,8 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 
+//Controller for Chat UI
+//Handles sending messages, receiving messages and the contact sidebar
 public class ChatScreenController {
 
     @FXML
@@ -38,9 +40,8 @@ public class ChatScreenController {
     @FXML
     private VBox contactSideBar;
 
-//    @FXML
-//    private Label typing;
-
+    //Handles sending a message
+    //Works with pressing "Enter" or the send button
     @FXML
     protected void onSendMessage(ActionEvent event) throws IOException {
         String message = messageField.getText();
@@ -51,6 +52,7 @@ public class ChatScreenController {
         }
     }
 
+    //creates message bubble for sent messages (right aligned and blue)
     private void addSentMessage(String text) {
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER_RIGHT);
@@ -67,6 +69,7 @@ public class ChatScreenController {
         Platform.runLater(() -> message.getChildren().add(hbox));
     }
 
+    //creates message bubble for received messages (left aligned and grey)
     private void addReceivedMessage(String text) {
         HBox hbox = new HBox();
         hbox.setAlignment(Pos.CENTER_LEFT);
@@ -85,11 +88,13 @@ public class ChatScreenController {
         Platform.runLater(() -> message.getChildren().add(hbox));
     }
 
+    //Method called by Connection when a message arrives
     public void displayMessage(ChatMessage message) {
         Platform.runLater(() -> addReceivedMessage(message.getContent()));
         Platform.runLater(this::updateChatHeader);
     }
 
+    //initialize Method that also adds pressing Enter as a viable way of sending a message and implementing Auto scroll when a new message appears
     @FXML
     public void initialize() {
         if (ChatApp.connection != null) {
@@ -111,34 +116,19 @@ public class ChatScreenController {
         });
     }
 
+    //Switches to the previous scene
     @FXML
     protected void onBackClick(ActionEvent event) {
         SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/StartScreen.fxml");
     }
 
-//    public void updateTyping(int status) {
-//        Platform.runLater(() -> {
-//            if (typing != null) {
-//                if (status == 1) {
-//                    typing.setText("is typing...");
-//                    typing.setVisible(true);
-//                }   else {
-//                    typing.setText("");
-//                    typing.setVisible(false);
-//                }
-//            }
-//        });
-//    }
-
-    public void showRequest(String content) {
-
-    }
-
+    //Redirects to HubScreen.fxml
     @FXML
     protected void onNewChatClick(ActionEvent event) {
         SceneSwitcher.switchScene(event, "/at/ac/hcw/simplechattool/HubScreen.fxml");
     }
 
+    //Adds the current chat partner to the contact list
     @FXML
     protected void onAddContactClick(ActionEvent event) {
         if (ChatApp.connection != null) {
@@ -163,6 +153,7 @@ public class ChatScreenController {
         }
     }
 
+    //updates the header label to show who we are currently talking to (shows ID and nickname picked by the user)
     public void updateChatHeader() {
         if (ChatApp.connection != null) {
             int otherID = ChatApp.connection.getConnectID2();
@@ -176,6 +167,7 @@ public class ChatScreenController {
         }
     }
 
+    //loads saved contacts into the sidebar as buttons that also allow the user to switch chats
     private void loadSideBarContacts() {
         if (contactSideBar == null) {
             return;
@@ -198,6 +190,7 @@ public class ChatScreenController {
         }
     }
 
+    //switches to a different user ID
     private void switchChatTo(int targetID, String targetName) {
         System.out.println("Switching chat to: " + targetName);
         try {
